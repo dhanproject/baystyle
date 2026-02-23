@@ -573,6 +573,175 @@ body{
 
 ::-webkit-scrollbar{width:0;height:0;}
 ::selection{background:rgba(67,97,238,0.18);color:var(--accent);}
+
+/* ══════════════════════════════
+   GACHA SPINNER OVERLAY
+══════════════════════════════ */
+#gachaOverlay{
+  position:fixed;inset:0;z-index:3000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(8,10,22,0.97);
+  backdrop-filter:blur(32px);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s var(--ease);
+}
+#gachaOverlay.active{opacity:1;pointer-events:auto;}
+
+.gacha-close{
+  position:absolute;top:22px;right:22px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:pointer;
+  transition:background 0.22s,transform 0.38s var(--spring);
+}
+.gacha-close:hover{background:rgba(255,255,255,0.2);transform:rotate(90deg) scale(1.1);}
+
+.gacha-title{
+  font-family:'DM Serif Display',serif;
+  font-size:1.5rem;font-weight:400;color:#fff;
+  margin-bottom:6px;text-align:center;
+}
+.gacha-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);margin-bottom:32px;text-align:center;letter-spacing:0.05em;}
+
+/* Slot reel window */
+.gacha-reel-wrap{
+  position:relative;
+  width:260px;height:260px;
+  border-radius:28px;
+  background:rgba(255,255,255,0.05);
+  border:2px solid rgba(255,255,255,0.1);
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(67,97,238,0.3),inset 0 0 40px rgba(0,0,0,0.4);
+}
+/* shine bands at top & bottom */
+.gacha-reel-wrap::before,.gacha-reel-wrap::after{
+  content:'';position:absolute;left:0;right:0;height:60px;z-index:5;pointer-events:none;
+}
+.gacha-reel-wrap::before{top:0;background:linear-gradient(to bottom,rgba(8,10,22,0.9) 0%,transparent 100%);}
+.gacha-reel-wrap::after{bottom:0;background:linear-gradient(to top,rgba(8,10,22,0.9) 0%,transparent 100%);}
+
+/* center highlight line */
+.gacha-center-line{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:calc(100% - 20px);height:2px;z-index:6;
+  background:linear-gradient(90deg,transparent,rgba(67,97,238,0.8),var(--accent),rgba(67,97,238,0.8),transparent);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.gacha-reel-wrap.spinning .gacha-center-line{opacity:1;}
+
+/* The reel itself — vertical strip of images */
+.gacha-reel{
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:8px;
+  /* JS sets transform translateY */
+  will-change:transform;
+}
+.gacha-reel-item{
+  width:244px;height:244px;
+  border-radius:20px;overflow:hidden;flex-shrink:0;
+  position:relative;
+}
+.gacha-reel-item img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* Result reveal */
+.gacha-result{
+  position:absolute;inset:0;z-index:10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:26px;overflow:hidden;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.5s var(--ease-out);
+}
+.gacha-result.show{opacity:1;pointer-events:auto;}
+.gacha-result-img{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.05);
+  transition:transform 0.6s var(--spring);
+}
+.gacha-result.show .gacha-result-img{transform:scale(1);}
+.gacha-result-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 55%);
+}
+.gacha-result-label{
+  position:absolute;bottom:14px;left:12px;right:12px;
+  color:#fff;font-size:0.75rem;font-weight:600;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
+  text-align:center;
+}
+
+/* Particles burst */
+.gacha-particles{
+  position:absolute;inset:0;pointer-events:none;z-index:7;overflow:hidden;border-radius:26px;
+}
+.particle{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  animation:particleBurst 0.8s var(--ease-out) forwards;
+  opacity:0;
+}
+@keyframes particleBurst{
+  0%{transform:translate(0,0) scale(0);opacity:1;}
+  100%{transform:var(--tx,0) var(--ty,0) scale(0);opacity:0;}
+}
+
+/* Spin button */
+.gacha-spin-btn{
+  margin-top:24px;
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;padding:14px 36px;border-radius:100px;
+  font-family:inherit;font-size:0.9rem;font-weight:700;
+  border:none;cursor:pointer;letter-spacing:0.02em;
+  box-shadow:0 8px 32px rgba(67,97,238,0.5);
+  transition:transform 0.38s var(--spring),box-shadow 0.3s,opacity 0.3s;
+  will-change:transform;
+}
+.gacha-spin-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 40px rgba(67,97,238,0.6);}
+.gacha-spin-btn:active{transform:scale(0.94);}
+.gacha-spin-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.gacha-spin-icon{font-size:1.2rem;transition:transform 0.6s;display:inline-block;}
+.gacha-spin-btn:not(:disabled):hover .gacha-spin-icon{transform:rotate(360deg);}
+
+/* Action row below */
+.gacha-actions{
+  display:flex;gap:8px;margin-top:14px;
+  opacity:0;pointer-events:none;
+  transform:translateY(8px);
+  transition:opacity 0.4s var(--ease-out),transform 0.4s var(--spring);
+}
+.gacha-actions.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+.gacha-act-btn{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;padding:8px 18px;border-radius:100px;
+  font-family:inherit;font-size:0.72rem;font-weight:700;cursor:pointer;
+  transition:background 0.22s,transform 0.35s var(--spring);
+}
+.gacha-act-btn:hover{background:rgba(255,255,255,0.22);transform:translateY(-2px);}
+.gacha-act-btn:active{transform:scale(0.9);}
+
+/* rainbow glow when result lands */
+@keyframes rainbowGlow{
+  0%{box-shadow:0 0 60px rgba(67,97,238,0.3),inset 0 0 40px rgba(0,0,0,0.4);}
+  25%{box-shadow:0 0 80px rgba(236,72,153,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+  50%{box-shadow:0 0 80px rgba(234,179,8,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+  75%{box-shadow:0 0 80px rgba(20,184,166,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+  100%{box-shadow:0 0 80px rgba(67,97,238,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+}
+.gacha-reel-wrap.landed{animation:rainbowGlow 1.5s ease infinite;}
+
+/* counter badge */
+.gacha-counter{
+  position:absolute;top:22px;left:22px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:5px 12px;border-radius:100px;
+  font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.6);
+  backdrop-filter:blur(8px);
+}
 </style>
 </head>
 <body>
@@ -623,7 +792,7 @@ body{
       <div class="device-card on blue" onclick="startSlideshow()"><div class="device-icon">▶️</div><div class="device-name">Slideshow</div><div class="device-val">Putar semua</div></div>
       <div class="device-card on orange" onclick="downloadAll()"><div class="device-icon">⬇️</div><div class="device-name">Download</div><div class="device-val">Semua foto</div></div>
       <div class="device-card on teal" onclick="shareGallery()"><div class="device-icon">🔗</div><div class="device-name">Bagikan</div><div class="device-val">Link galeri</div></div>
-      <div class="device-card" onclick="gotoPage('gallery')"><div class="device-icon">🖼️</div><div class="device-name">Galeri</div><div class="device-val">Lihat semua</div><div class="device-toggle on"></div></div>
+      <div class="device-card on pink" onclick="openGacha()"><div class="device-icon">🎰</div><div class="device-name">Gacha</div><div class="device-val">Acak foto</div></div>
       <div class="device-card" onclick="gotoPage('gallery');setTimeout(()=>document.getElementById('searchInput').focus(),450)"><div class="device-icon">🔍</div><div class="device-name">Cari Foto</div><div class="device-val">Pencarian</div><div class="device-toggle off"></div></div>
       <div class="device-card" onclick="gotoPage('settings')"><div class="device-icon">⚙️</div><div class="device-name">Pengaturan</div><div class="device-val">Kustomisasi</div><div class="device-toggle off"></div></div>
     </div>
@@ -678,6 +847,12 @@ body{
       <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px">Putar Slideshow</div>
       <div style="font-size:0.72rem;opacity:0.6">Tampilkan semua foto secara otomatis</div>
     </div>
+    <div class="section-header"><span class="section-title">Gacha Foto 🎰</span></div>
+    <div class="slideshow-card" onclick="openGacha()" style="background:linear-gradient(135deg,#1a0533,#4c1d95,#7c3aed)">
+      <div style="font-size:2.2rem;margin-bottom:10px">🎰</div>
+      <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px">Spin & Temukan Kenangan</div>
+      <div style="font-size:0.72rem;opacity:0.6">Putar roda & dapatkan foto random!</div>
+    </div>
     <div class="section-header"><span class="section-title">Foto Favorit ⭐</span></div>
     <div class="gallery-wrap"><div class="photo-masonry" id="favGrid">
       <div class="empty-state"><span class="empty-icon">⭐</span><div class="empty-title">Belum ada favorit</div><div class="empty-sub">Klik ⭐ pada foto untuk menandai</div></div>
@@ -725,6 +900,7 @@ body{
     <div class="settings-section">
       <div class="settings-label">Galeri</div>
       <div class="settings-group">
+        <div class="settings-item" onclick="openGacha()"><div class="si-left"><div class="si-icon si-pink">🎰</div><div class="si-text"><h4>Gacha Foto</h4><p>Spin foto random</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Spin →</div></div>
         <div class="settings-item" onclick="startSlideshow()"><div class="si-left"><div class="si-icon si-blue">▶️</div><div class="si-text"><h4>Putar Slideshow</h4><p>Tampilkan semua foto</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Putar →</div></div>
         <div class="settings-item" onclick="downloadAll()"><div class="si-left"><div class="si-icon si-green">⬇️</div><div class="si-text"><h4>Download Semua</h4><p>Unduh seluruh galeri</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Unduh →</div></div>
         <div class="settings-item" onclick="shareGallery()"><div class="si-left"><div class="si-icon si-pink">🔗</div><div class="si-text"><h4>Bagikan Galeri</h4><p>Salin link halaman ini</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Share →</div></div>
@@ -743,6 +919,36 @@ body{
     <button class="nav-item" onclick="gotoPage('memories')" id="nav-memories"><div class="nav-icon-wrap"><span class="nav-icon">⭐</span></div><span class="nav-label">Kenangan</span></button>
     <button class="nav-item" onclick="gotoPage('settings')" id="nav-settings"><div class="nav-icon-wrap"><span class="nav-icon">⚙️</span></div><span class="nav-label">Pengaturan</span></button>
   </nav>
+</div>
+
+<!-- GACHA OVERLAY -->
+<div id="gachaOverlay">
+  <div class="gacha-counter" id="gachaCounter">0 foto</div>
+  <button class="gacha-close" onclick="closeGacha()">✕</button>
+  <div class="gacha-title">Gacha Kenangan ✨</div>
+  <div class="gacha-sub" id="gachaSub">Spin untuk menemukan foto spesial</div>
+  <div class="gacha-reel-wrap" id="gachaReelWrap">
+    <div class="gacha-center-line"></div>
+    <div class="gacha-reel" id="gachaReel">
+      <!-- filled by JS -->
+    </div>
+    <!-- result reveal layer -->
+    <div class="gacha-result" id="gachaResult">
+      <img id="gachaResultImg" src="" alt="" class="gacha-result-img">
+      <div class="gacha-result-overlay"></div>
+      <div class="gacha-result-label" id="gachaResultLabel"></div>
+    </div>
+    <div class="gacha-particles" id="gachaParticles"></div>
+  </div>
+  <button class="gacha-spin-btn" id="gachaSpinBtn" onclick="spinGacha()">
+    <span class="gacha-spin-icon">🎰</span> SPIN!
+  </button>
+  <div class="gacha-actions" id="gachaActions">
+    <button class="gacha-act-btn" onclick="gachaViewFull()">🔍 Lihat Penuh</button>
+    <button class="gacha-act-btn" onclick="gachaFav()">⭐ Favorit</button>
+    <button class="gacha-act-btn" onclick="gachaDl()">⬇ Unduh</button>
+    <button class="gacha-act-btn" onclick="spinGacha()">🔄 Spin Lagi</button>
+  </div>
 </div>
 
 <!-- LIGHTBOX -->
@@ -1096,6 +1302,198 @@ function stopSlideshow(){clearTimeout(ssTimer);document.getElementById('slidesho
 
 // ── HELPER ──
 function fmtDate(d){if(!d)return'';try{return new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});}catch{return'';}}
+
+// ── GACHA ──
+let gachaResultIdx = -1;
+let gachaSpinning = false;
+
+function openGacha() {
+  if (!photos.length) { toast('Upload foto dulu untuk main gacha!', 'err'); return; }
+  const ov = document.getElementById('gachaOverlay');
+  ov.classList.add('active');
+  document.getElementById('gachaCounter').textContent = photos.length + ' foto';
+  document.getElementById('gachaSub').textContent = 'Spin untuk menemukan foto spesial';
+  // reset state
+  document.getElementById('gachaResult').classList.remove('show');
+  document.getElementById('gachaActions').classList.remove('show');
+  document.getElementById('gachaReelWrap').classList.remove('landed', 'spinning');
+  document.getElementById('gachaSpinBtn').disabled = false;
+  document.getElementById('gachaSpinBtn').innerHTML = '<span class="gacha-spin-icon">🎰</span> SPIN!';
+  gachaResultIdx = -1;
+  gachaBuildReel();
+}
+
+function closeGacha() {
+  document.getElementById('gachaOverlay').classList.remove('active');
+  gachaSpinning = false;
+}
+
+function gachaBuildReel() {
+  const reel = document.getElementById('gachaReel');
+  // Build a long shuffled list for the scroll animation (30 items)
+  const pool = [];
+  while (pool.length < 30) {
+    const shuffled = [...photos].sort(() => Math.random() - 0.5);
+    pool.push(...shuffled);
+  }
+  const items = pool.slice(0, 30);
+  reel.innerHTML = items.map(p =>
+    `<div class="gacha-reel-item"><img src="${p.url}" loading="lazy" alt=""></div>`
+  ).join('');
+  // Reset position to top
+  reel.style.transition = 'none';
+  reel.style.transform = 'translateY(0px)';
+  reel._items = items;
+}
+
+function spinGacha() {
+  if (gachaSpinning) return;
+  if (!photos.length) return;
+  gachaSpinning = true;
+
+  const btn = document.getElementById('gachaSpinBtn');
+  const wrap = document.getElementById('gachaReelWrap');
+  const reel = document.getElementById('gachaReel');
+  const result = document.getElementById('gachaResult');
+  const actions = document.getElementById('gachaActions');
+
+  // Reset result
+  result.classList.remove('show');
+  actions.classList.remove('show');
+  wrap.classList.remove('landed');
+  wrap.classList.add('spinning');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="gacha-spin-icon" style="animation:spin 0.4s linear infinite">⏳</span> Spinning...';
+
+  // Add spin keyframe dynamically
+  if (!document.getElementById('spinStyle')) {
+    const s = document.createElement('style');
+    s.id = 'spinStyle';
+    s.textContent = '@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}';
+    document.head.appendChild(s);
+  }
+
+  // Rebuild reel fresh each spin
+  gachaBuildReel();
+
+  // Pick random winner
+  const winnerIdx = Math.floor(Math.random() * photos.length);
+  gachaResultIdx = winnerIdx;
+  const winner = photos[winnerIdx];
+
+  // Item height = 244px + 8px gap = 252px
+  const ITEM_H = 252;
+  const totalItems = reel._items.length;
+  // We want to land on item index 14 (middle-ish) which we'll set to winner
+  const landIndex = 14;
+  reel._items[landIndex] = winner;
+  // Update that specific DOM item
+  const domItems = reel.querySelectorAll('.gacha-reel-item img');
+  if (domItems[landIndex]) domItems[landIndex].src = winner.url;
+
+  // Calculate final translateY so landIndex item is centered in the 260px window
+  // Center of window = 130px, item center = landIndex * ITEM_H + 244/2 = landIndex*252+122
+  const finalY = -(landIndex * ITEM_H + 122 - 130);
+
+  // Multi-phase spin: fast acceleration → decelerate → land
+  const phases = [
+    { y: -(3 * ITEM_H), dur: 400, ease: 'cubic-bezier(0.4,0,1,1)' },       // fast start
+    { y: -(8 * ITEM_H), dur: 500, ease: 'linear' },                          // mid speed
+    { y: -(12 * ITEM_H), dur: 400, ease: 'linear' },                         // peak
+    { y: finalY,         dur: 900, ease: 'cubic-bezier(0,0,0.2,1)' },        // slow to stop
+  ];
+
+  let elapsed = 0;
+  function runPhase(i) {
+    if (i >= phases.length) {
+      // Landed!
+      wrap.classList.remove('spinning');
+      wrap.classList.add('landed');
+      gachaShowResult(winner);
+      gachaSpinning = false;
+      return;
+    }
+    const p = phases[i];
+    reel.style.transition = `transform ${p.dur}ms ${p.ease}`;
+    reel.style.transform = `translateY(${p.y}px)`;
+    elapsed += p.dur;
+    setTimeout(() => runPhase(i + 1), p.dur);
+  }
+  runPhase(0);
+}
+
+function gachaShowResult(photo) {
+  const result = document.getElementById('gachaResult');
+  const img = document.getElementById('gachaResultImg');
+  const label = document.getElementById('gachaResultLabel');
+  const actions = document.getElementById('gachaActions');
+  const sub = document.getElementById('gachaSub');
+  const btn = document.getElementById('gachaSpinBtn');
+
+  img.src = photo.url;
+  label.textContent = fmtDate(photo.created);
+  sub.textContent = '✨ Kenangan ditemukan!';
+
+  // Slight delay then show result overlay
+  setTimeout(() => {
+    result.classList.add('show');
+    gachaFireParticles();
+    setTimeout(() => {
+      actions.classList.add('show');
+      btn.disabled = false;
+      btn.innerHTML = '<span class="gacha-spin-icon">🔄</span> Spin Lagi';
+    }, 400);
+  }, 180);
+}
+
+function gachaFireParticles() {
+  const container = document.getElementById('gachaParticles');
+  container.innerHTML = '';
+  const colors = ['#4361ee','#ec4899','#22c55e','#f97316','#eab308','#14b8a6','#7c3aed','#ef4444'];
+  const cx = 130, cy = 130; // center of 260px box
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    const angle = (i / 28) * 360 * (Math.PI / 180);
+    const dist = 80 + Math.random() * 80;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+    el.style.cssText = `
+      left:${cx + (Math.random()-0.5)*40}px;
+      top:${cy + (Math.random()-0.5)*40}px;
+      background:${colors[i % colors.length]};
+      width:${4 + Math.random()*6}px;
+      height:${4 + Math.random()*6}px;
+      border-radius:${Math.random()>0.5?'50%':'3px'};
+      --tx:translateX(${tx}px);
+      --ty:translateY(${ty}px);
+      animation-delay:${Math.random()*0.15}s;
+      animation-duration:${0.6 + Math.random()*0.5}s;
+    `;
+    container.appendChild(el);
+  }
+  // Clear after animation
+  setTimeout(() => { container.innerHTML = ''; }, 1500);
+}
+
+function gachaViewFull() {
+  if (gachaResultIdx < 0) return;
+  closeGacha();
+  setTimeout(() => openLightbox(gachaResultIdx), 300);
+}
+
+function gachaFav() {
+  if (gachaResultIdx < 0) return;
+  const p = photos[gachaResultIdx];
+  if (p) toggleFav(p.name);
+}
+
+function gachaDl() {
+  if (gachaResultIdx < 0) return;
+  const p = photos[gachaResultIdx];
+  if (p) dlPhoto(p.url, p.name);
+}
 
 // ── INIT ──
 loadPhotos();
