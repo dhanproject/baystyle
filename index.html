@@ -408,4 +408,1725 @@ body{
 .settings-item:last-child{border-bottom:none;}
 .settings-item:hover{background:var(--bg);}
 .settings-item:active{background:var(--accent-light);}
-.si-left{display:flex;align-items:c
+.si-left{display:flex;align-items:center;gap:12px;}
+.si-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  transition:transform 0.38s var(--spring);flex-shrink:0;
+}
+.settings-item:hover .si-icon{transform:scale(1.18) rotate(-6deg);}
+.si-blue{background:#dbeafe;} .si-purple{background:#ede9fe;} .si-green{background:#dcfce7;}
+.si-orange{background:#ffedd5;} .si-pink{background:#fce7f3;} .si-red{background:#fee2e2;}
+.si-text h4{font-size:0.82rem;font-weight:600;color:var(--text);}
+.si-text p{font-size:0.68rem;color:var(--text2);margin-top:1px;}
+.si-right{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:0.85rem;}
+
+/* Toggle */
+.toggle-sw{
+  width:46px;height:26px;border-radius:100px;
+  background:var(--border);position:relative;cursor:pointer;flex-shrink:0;
+  transition:background 0.32s var(--ease);
+}
+.toggle-sw.on{background:var(--accent);}
+.toggle-sw::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 5px rgba(0,0,0,0.22);
+  transition:left 0.32s var(--spring);
+}
+.toggle-sw.on::after{left:23px;}
+
+/* Color picker */
+.theme-colors{display:flex;gap:9px;padding:14px 16px;flex-wrap:wrap;}
+.color-dot{
+  width:32px;height:32px;border-radius:50%;cursor:pointer;
+  border:3px solid transparent;
+  transition:transform 0.38s var(--spring),border-color 0.25s;
+  will-change:transform;
+}
+.color-dot.active{border-color:var(--text);transform:scale(1.2);}
+.color-dot:hover:not(.active){transform:scale(1.12);}
+.color-dot:active{transform:scale(0.88);}
+
+/* ── LIGHTBOX ── */
+#lightbox{
+  position:fixed;inset:0;
+  background:rgba(8,10,20,0.96);
+  z-index:1000;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  backdrop-filter:blur(28px);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.38s var(--ease-out);
+}
+#lightbox.active{opacity:1;pointer-events:auto;}
+#lightboxImg{
+  max-width:90vw;max-height:72vh;object-fit:contain;display:block;
+  border-radius:18px;box-shadow:0 40px 80px rgba(0,0,0,0.65);
+  transition:opacity 0.22s var(--ease-out),transform 0.22s var(--ease-out);
+}
+#lightboxImg.swapping{opacity:0;transform:scale(0.92);}
+.lb-close{
+  position:fixed;top:22px;right:22px;width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.22s,transform 0.38s var(--spring);
+  backdrop-filter:blur(8px);will-change:transform;
+}
+.lb-close:hover{background:rgba(255,255,255,0.22);transform:scale(1.1) rotate(90deg);}
+.lb-close:active{transform:scale(0.88);}
+.lb-controls{display:flex;align-items:center;gap:8px;margin-top:18px;}
+.lb-btn{
+  background:rgba(255,255,255,0.11);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;padding:8px 18px;border-radius:100px;
+  font-family:inherit;font-size:0.7rem;font-weight:700;cursor:pointer;
+  backdrop-filter:blur(8px);
+  transition:background 0.22s,transform 0.38s var(--spring);will-change:transform;
+}
+.lb-btn:hover{background:rgba(255,255,255,0.22);transform:translateY(-2px);}
+.lb-btn:active{transform:scale(0.9);}
+.lb-btn.danger:hover{background:#ef4444;border-color:#ef4444;}
+.lb-counter{color:rgba(255,255,255,0.45);font-size:0.7rem;font-weight:600;min-width:50px;text-align:center;}
+.lb-indicator{display:flex;gap:5px;margin-top:14px;}
+.lb-dot{
+  width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.22);cursor:pointer;
+  transition:background 0.25s,width 0.32s var(--spring),border-radius 0.32s;
+}
+.lb-dot.active{background:#fff;width:18px;border-radius:3px;}
+
+/* ── SLIDESHOW ── */
+#slideshowOverlay{
+  position:fixed;inset:0;background:#000;z-index:2000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.42s var(--ease);
+}
+#slideshowOverlay.active{opacity:1;pointer-events:auto;}
+#ssImg{
+  max-width:100vw;max-height:88vh;object-fit:contain;
+  transition:opacity 0.55s var(--ease),transform 0.55s var(--ease);
+}
+#ssImg.ss-leave{opacity:0;transform:scale(1.05);}
+#ssImg.ss-enter{opacity:0;transform:scale(0.95);}
+.ss-progress{position:fixed;bottom:78px;left:20px;right:20px;height:2px;background:rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;}
+.ss-progress-fill{height:100%;background:#fff;border-radius:100px;width:0%;}
+.ss-controls{position:fixed;bottom:26px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:10px;}
+.ss-btn{
+  background:rgba(255,255,255,0.13);border:1px solid rgba(255,255,255,0.22);
+  color:#fff;padding:8px 20px;border-radius:100px;
+  font-family:inherit;font-size:0.7rem;font-weight:700;cursor:pointer;
+  transition:background 0.22s,transform 0.38s var(--spring);will-change:transform;
+}
+.ss-btn:hover{background:rgba(255,255,255,0.24);transform:scale(1.06);}
+.ss-btn:active{transform:scale(0.92);}
+.ss-close{
+  position:fixed;top:22px;right:22px;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1rem;
+  transition:background 0.22s,transform 0.38s var(--spring);will-change:transform;
+}
+.ss-close:hover{background:rgba(255,255,255,0.22);transform:rotate(90deg) scale(1.1);}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:92px;left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--text);color:#fff;
+  padding:11px 22px;border-radius:100px;
+  font-size:0.74rem;font-weight:600;
+  z-index:9000;opacity:0;
+  transition:opacity 0.32s var(--ease-out),transform 0.42s var(--spring);
+  pointer-events:none;white-space:nowrap;
+  box-shadow:var(--sh-lg);
+  max-width:calc(100vw - 48px);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.ok{background:var(--green);}
+#toast.err{background:#ef4444;}
+
+/* ── MISC ── */
+.notice-card{
+  margin:0 22px 16px;background:var(--accent-light);
+  border:1px solid rgba(67,97,238,0.18);border-radius:var(--radius-sm);padding:12px 14px;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.notice-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.notice-text{font-size:0.71rem;color:var(--accent);font-weight:500;line-height:1.55;}
+.slideshow-card{
+  margin:0 22px 16px;
+  background:linear-gradient(135deg,#0f172a,#1e1b4b);
+  border-radius:var(--radius);padding:22px;color:#fff;cursor:pointer;
+  position:relative;overflow:hidden;
+  box-shadow:0 12px 40px rgba(30,27,75,0.4);
+  transition:transform 0.42s var(--spring),box-shadow 0.3s;will-change:transform;
+}
+.slideshow-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 22px 60px rgba(30,27,75,0.55);}
+.slideshow-card:active{transform:scale(0.97);}
+.slideshow-card::after{position:absolute;right:-8px;bottom:-8px;font-size:5rem;opacity:0.07;content:'🎞️';}
+
+.empty-state{text-align:center;padding:48px 20px;animation:itemIn 0.4s var(--ease-out);}
+.empty-icon{font-size:3rem;margin-bottom:14px;display:block;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.empty-title{font-size:1rem;font-weight:700;margin-bottom:6px;}
+.empty-sub{font-size:0.78rem;color:var(--text2);}
+
+::-webkit-scrollbar{width:0;height:0;}
+::selection{background:rgba(67,97,238,0.18);color:var(--accent);}
+
+/* ══════════════════════════════
+   GACHA SPINNER OVERLAY
+══════════════════════════════ */
+#gachaOverlay{
+  position:fixed;inset:0;z-index:3000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(8,10,22,0.97);
+  backdrop-filter:blur(32px);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s var(--ease);
+}
+#gachaOverlay.active{opacity:1;pointer-events:auto;}
+
+.gacha-close{
+  position:absolute;top:22px;right:22px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:pointer;
+  transition:background 0.22s,transform 0.38s var(--spring);
+}
+.gacha-close:hover{background:rgba(255,255,255,0.2);transform:rotate(90deg) scale(1.1);}
+
+.gacha-title{
+  font-family:'DM Serif Display',serif;
+  font-size:1.5rem;font-weight:400;color:#fff;
+  margin-bottom:6px;text-align:center;
+}
+.gacha-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);margin-bottom:32px;text-align:center;letter-spacing:0.05em;}
+
+/* Slot reel window */
+.gacha-reel-wrap{
+  position:relative;
+  width:260px;height:260px;
+  border-radius:28px;
+  background:rgba(255,255,255,0.05);
+  border:2px solid rgba(255,255,255,0.1);
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(67,97,238,0.3),inset 0 0 40px rgba(0,0,0,0.4);
+}
+/* shine bands at top & bottom */
+.gacha-reel-wrap::before,.gacha-reel-wrap::after{
+  content:'';position:absolute;left:0;right:0;height:60px;z-index:5;pointer-events:none;
+}
+.gacha-reel-wrap::before{top:0;background:linear-gradient(to bottom,rgba(8,10,22,0.9) 0%,transparent 100%);}
+.gacha-reel-wrap::after{bottom:0;background:linear-gradient(to top,rgba(8,10,22,0.9) 0%,transparent 100%);}
+
+/* center highlight line */
+.gacha-center-line{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:calc(100% - 20px);height:2px;z-index:6;
+  background:linear-gradient(90deg,transparent,rgba(67,97,238,0.8),var(--accent),rgba(67,97,238,0.8),transparent);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.gacha-reel-wrap.spinning .gacha-center-line{opacity:1;}
+
+/* The reel itself — vertical strip of images */
+.gacha-reel{
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:8px;
+  /* JS sets transform translateY */
+  will-change:transform;
+}
+.gacha-reel-item{
+  width:244px;height:244px;
+  border-radius:20px;overflow:hidden;flex-shrink:0;
+  position:relative;
+}
+.gacha-reel-item img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* Result reveal */
+.gacha-result{
+  position:absolute;inset:0;z-index:10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:26px;overflow:hidden;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.5s var(--ease-out);
+}
+.gacha-result.show{opacity:1;pointer-events:auto;}
+.gacha-result-img{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.05);
+  transition:transform 0.6s var(--spring);
+}
+.gacha-result.show .gacha-result-img{transform:scale(1);}
+.gacha-result-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 55%);
+}
+.gacha-result-label{
+  position:absolute;bottom:14px;left:12px;right:12px;
+  color:#fff;font-size:0.75rem;font-weight:600;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
+  text-align:center;
+}
+
+/* Particles burst */
+.gacha-particles{
+  position:absolute;inset:0;pointer-events:none;z-index:7;overflow:hidden;border-radius:26px;
+}
+.particle{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  animation:particleBurst 0.8s var(--ease-out) forwards;
+  opacity:0;
+}
+@keyframes particleBurst{
+  0%{transform:translate(0,0) scale(0);opacity:1;}
+  100%{transform:var(--tx,0) var(--ty,0) scale(0);opacity:0;}
+}
+
+/* Spin button */
+.gacha-spin-btn{
+  margin-top:24px;
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;padding:14px 36px;border-radius:100px;
+  font-family:inherit;font-size:0.9rem;font-weight:700;
+  border:none;cursor:pointer;letter-spacing:0.02em;
+  box-shadow:0 8px 32px rgba(67,97,238,0.5);
+  transition:transform 0.38s var(--spring),box-shadow 0.3s,opacity 0.3s;
+  will-change:transform;
+}
+.gacha-spin-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 40px rgba(67,97,238,0.6);}
+.gacha-spin-btn:active{transform:scale(0.94);}
+.gacha-spin-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.gacha-spin-icon{font-size:1.2rem;transition:transform 0.6s;display:inline-block;}
+.gacha-spin-btn:not(:disabled):hover .gacha-spin-icon{transform:rotate(360deg);}
+
+/* Action row below */
+.gacha-actions{
+  display:flex;gap:8px;margin-top:14px;
+  opacity:0;pointer-events:none;
+  transform:translateY(8px);
+  transition:opacity 0.4s var(--ease-out),transform 0.4s var(--spring);
+}
+.gacha-actions.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+.gacha-act-btn{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;padding:8px 18px;border-radius:100px;
+  font-family:inherit;font-size:0.72rem;font-weight:700;cursor:pointer;
+  transition:background 0.22s,transform 0.35s var(--spring);
+}
+.gacha-act-btn:hover{background:rgba(255,255,255,0.22);transform:translateY(-2px);}
+.gacha-act-btn:active{transform:scale(0.9);}
+
+/* rainbow glow when result lands */
+@keyframes rainbowGlow{
+  0%{box-shadow:0 0 60px rgba(67,97,238,0.3),inset 0 0 40px rgba(0,0,0,0.4);}
+  25%{box-shadow:0 0 80px rgba(236,72,153,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+  50%{box-shadow:0 0 80px rgba(234,179,8,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+  75%{box-shadow:0 0 80px rgba(20,184,166,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+  100%{box-shadow:0 0 80px rgba(67,97,238,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
+}
+.gacha-reel-wrap.landed{animation:rainbowGlow 1.5s ease infinite;}
+
+/* counter badge */
+.gacha-counter{
+  position:absolute;top:22px;left:22px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:5px 12px;border-radius:100px;
+  font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.6);
+  backdrop-filter:blur(8px);
+}
+
+/* ══════════════════════════════
+   LIKE & COMMENT SYSTEM
+══════════════════════════════ */
+
+/* Like badge on photo cards */
+.photo-like-bar{
+  position:absolute;top:8px;left:8px;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);
+  padding:4px 9px;border-radius:100px;
+  opacity:0;
+  transition:opacity 0.25s var(--ease);
+  pointer-events:none;
+  z-index:2;
+}
+.photo-item:hover .photo-like-bar{ opacity:1; }
+.photo-like-bar.has-likes{ opacity:1; }
+.plb-heart{font-size:0.72rem;line-height:1;}
+.plb-count{font-size:0.62rem;font-weight:700;color:#fff;}
+
+/* Comment count badge */
+.photo-comment-badge{
+  position:absolute;top:8px;right:8px;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);
+  padding:4px 9px;border-radius:100px;
+  font-size:0.62rem;font-weight:700;color:#fff;
+  opacity:0;
+  transition:opacity 0.25s;
+  z-index:2;
+}
+.photo-item:hover .photo-comment-badge,
+.photo-comment-badge.has-comments{ opacity:1; }
+
+/* ── COMMENT PANEL (bottom sheet) ── */
+#commentPanel{
+  position:fixed;
+  bottom:0;left:50%;
+  transform:translateX(-50%) translateY(100%);
+  width:100%;max-width:430px;
+  background:var(--card);
+  border-radius:28px 28px 0 0;
+  z-index:4000;
+  transition:transform 0.48s var(--spring),opacity 0.3s var(--ease);
+  opacity:0;
+  display:flex;flex-direction:column;
+  max-height:88vh;
+  box-shadow:0 -12px 60px rgba(0,0,0,0.18);
+  will-change:transform;
+}
+#commentPanel.open{
+  transform:translateX(-50%) translateY(0);
+  opacity:1;
+}
+
+/* drag handle */
+.cp-handle{
+  width:36px;height:4px;border-radius:100px;
+  background:var(--border);
+  margin:12px auto 0;flex-shrink:0;
+}
+
+/* panel header */
+.cp-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px 12px;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+}
+.cp-head-left{ display:flex;align-items:center;gap:10px; }
+.cp-photo-thumb{
+  width:42px;height:42px;border-radius:10px;
+  object-fit:cover;flex-shrink:0;
+  border:2px solid var(--border);
+}
+.cp-photo-info h4{ font-size:0.82rem;font-weight:700;color:var(--text); }
+.cp-photo-info p{ font-size:0.68rem;color:var(--text2);margin-top:1px; }
+.cp-close{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--bg);border:none;color:var(--text2);
+  font-size:0.9rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.22s,transform 0.35s var(--spring);
+  flex-shrink:0;
+}
+.cp-close:hover{ background:var(--border);transform:rotate(90deg) scale(1.1); }
+
+/* like row */
+.cp-like-row{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 20px;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+}
+.cp-like-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:100px;
+  border:1.5px solid var(--border);background:var(--bg);
+  cursor:pointer;font-family:inherit;
+  transition:all 0.35s var(--spring);
+  will-change:transform;
+}
+.cp-like-btn:hover{ transform:scale(1.06); }
+.cp-like-btn:active{ transform:scale(0.9); }
+.cp-like-btn.liked{
+  background:linear-gradient(135deg,#ff6b9d,#ec4899);
+  border-color:transparent;
+  box-shadow:0 4px 16px rgba(236,72,153,0.35);
+}
+.cp-heart{
+  font-size:1.1rem;
+  transition:transform 0.42s var(--spring);
+  display:inline-block;
+}
+.cp-like-btn.liked .cp-heart{ transform:scale(1.25); }
+.cp-like-count{
+  font-size:0.82rem;font-weight:700;
+  color:var(--text);
+  transition:color 0.25s;
+}
+.cp-like-btn.liked .cp-like-count{ color:#fff; }
+.cp-like-label{
+  font-size:0.72rem;font-weight:600;
+  color:var(--text2);
+  transition:color 0.25s;
+}
+.cp-like-btn.liked .cp-like-label{ color:rgba(255,255,255,0.8); }
+
+/* emoji quick reactions */
+.cp-reactions{
+  display:flex;align-items:center;gap:6px;
+  margin-left:auto;
+}
+.cp-emoji-btn{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--bg);border:1.5px solid var(--border);
+  font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.35s var(--spring),background 0.22s,box-shadow 0.22s;
+  position:relative;
+  will-change:transform;
+}
+.cp-emoji-btn:hover{ transform:scale(1.2) translateY(-3px);background:var(--accent-light);border-color:var(--accent); }
+.cp-emoji-btn:active{ transform:scale(0.85); }
+.cp-emoji-btn .emoji-count{
+  position:absolute;top:-4px;right:-4px;
+  background:var(--accent);color:#fff;
+  font-size:0.45rem;font-weight:800;
+  min-width:13px;height:13px;border-radius:100px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 2px;
+  animation:badgePop 0.35s var(--spring);
+}
+
+/* heart burst animation */
+@keyframes heartBurst{
+  0%{ transform:scale(0) translateY(0); opacity:1; }
+  60%{ transform:scale(1.4) translateY(-30px); opacity:1; }
+  100%{ transform:scale(0.8) translateY(-55px); opacity:0; }
+}
+.heart-float{
+  position:fixed;pointer-events:none;z-index:9999;
+  font-size:1.6rem;
+  animation:heartBurst 0.7s var(--ease-out) forwards;
+}
+
+/* ── COMMENTS LIST ── */
+.cp-comments-wrap{
+  flex:1;overflow-y:auto;padding:0 20px;
+  -webkit-overflow-scrolling:touch;
+}
+.cp-comments-wrap::-webkit-scrollbar{ width:0; }
+
+.cp-comment{
+  display:flex;gap:10px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  animation:itemIn 0.35s var(--ease-out);
+}
+.cp-comment:last-child{ border-bottom:none; }
+.cc-avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;font-weight:700;color:#fff;
+  overflow:hidden;
+}
+.cc-avatar img{ width:100%;height:100%;object-fit:cover; }
+.cc-body{ flex:1;min-width:0; }
+.cc-top{ display:flex;align-items:center;justify-content:space-between;margin-bottom:4px; }
+.cc-name{ font-size:0.78rem;font-weight:700;color:var(--text); }
+.cc-time{ font-size:0.62rem;color:var(--text3); }
+.cc-text{ font-size:0.8rem;color:var(--text);line-height:1.5;word-break:break-word; }
+.cc-actions{ display:flex;align-items:center;gap:10px;margin-top:6px; }
+.cc-like-btn{
+  display:flex;align-items:center;gap:4px;
+  font-size:0.65rem;font-weight:600;color:var(--text2);
+  background:none;border:none;cursor:pointer;font-family:inherit;padding:0;
+  transition:color 0.22s,transform 0.3s var(--spring);
+}
+.cc-like-btn:hover{ color:var(--pink);transform:scale(1.1); }
+.cc-like-btn.liked{ color:var(--pink); }
+.cc-del-btn{
+  font-size:0.62rem;font-weight:600;color:var(--text3);
+  background:none;border:none;cursor:pointer;font-family:inherit;padding:0;
+  transition:color 0.22s;
+  margin-left:auto;
+}
+.cc-del-btn:hover{ color:#ef4444; }
+
+/* empty comments */
+.cp-empty{
+  text-align:center;padding:36px 0;color:var(--text2);
+}
+.cp-empty-icon{ font-size:2.5rem;display:block;margin-bottom:10px;animation:float 3s ease-in-out infinite; }
+.cp-empty p{ font-size:0.8rem;font-weight:500; }
+
+/* ── COMMENT INPUT ── */
+.cp-input-row{
+  display:flex;align-items:flex-end;gap:8px;
+  padding:12px 16px;
+  border-top:1px solid var(--border);flex-shrink:0;
+  background:var(--card);
+  padding-bottom:max(12px, env(safe-area-inset-bottom));
+}
+.cc-user-av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.85rem;font-weight:700;color:#fff;overflow:hidden;
+  margin-bottom:2px;
+}
+.cc-user-av img{ width:100%;height:100%;object-fit:cover; }
+.cp-textarea{
+  flex:1;min-height:38px;max-height:100px;
+  background:var(--bg);
+  border:1.5px solid var(--border);border-radius:18px;
+  padding:9px 14px;
+  font-family:inherit;font-size:0.8rem;color:var(--text);
+  resize:none;outline:none;overflow-y:auto;
+  transition:border-color 0.25s,box-shadow 0.25s;
+  line-height:1.45;
+}
+.cp-textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(67,97,238,0.1);
+}
+.cp-textarea::placeholder{ color:var(--text3); }
+.cp-send-btn{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:var(--accent);color:#fff;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;
+  box-shadow:0 4px 14px rgba(67,97,238,0.35);
+  transition:transform 0.38s var(--spring),background 0.25s,box-shadow 0.25s;
+  will-change:transform;
+}
+.cp-send-btn:hover{ background:var(--accent2);transform:scale(1.1) rotate(-15deg);box-shadow:0 6px 20px rgba(67,97,238,0.45); }
+.cp-send-btn:active{ transform:scale(0.88); }
+.cp-send-btn:disabled{ opacity:0.4;cursor:not-allowed;transform:none; }
+
+/* backdrop scrim */
+#commentScrim{
+  position:fixed;inset:0;background:rgba(0,0,0,0);z-index:3999;
+  pointer-events:none;
+  transition:background 0.35s var(--ease);
+}
+#commentScrim.active{ background:rgba(0,0,0,0.45);pointer-events:auto; }
+
+/* Like button in lightbox */
+.lb-like-btn{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.11);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;padding:8px 18px;border-radius:100px;
+  font-family:inherit;font-size:0.7rem;font-weight:700;cursor:pointer;
+  transition:background 0.22s,transform 0.38s var(--spring),box-shadow 0.22s;
+  backdrop-filter:blur(8px);
+}
+.lb-like-btn:hover{ background:rgba(255,255,255,0.22);transform:translateY(-2px); }
+.lb-like-btn:active{ transform:scale(0.9); }
+.lb-like-btn.liked{
+  background:linear-gradient(135deg,#ff6b9d,#ec4899);
+  border-color:transparent;
+  box-shadow:0 4px 16px rgba(236,72,153,0.4);
+}
+.lb-like-heart{ font-size:0.95rem;transition:transform 0.42s var(--spring);display:inline-block; }
+.lb-like-btn.liked .lb-like-heart{ transform:scale(1.3); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ══ HOME ══ -->
+  <div class="page active" id="page-home">
+    <div class="topbar" id="tb-home">
+      <div class="topbar-left">
+        <div class="avatar" id="avatarBtn">B</div>
+        <div class="topbar-greeting">
+          <h1>Hi, Bayu 🌿</h1>
+          <p id="timeGreet">Kenangan abadi</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+        <button class="icon-btn primary" onclick="gotoPage('gallery')">＋</button>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-icon">🖼️</span><div class="stat-num" id="statPhotos">0</div><div class="stat-label">Foto</div></div>
+      <div class="stat-card"><span class="stat-icon">📅</span><div class="stat-num" id="statDays">–</div><div class="stat-label">Hari</div></div>
+      <div class="stat-card"><span class="stat-icon">💾</span><div class="stat-num" id="statSize">0MB</div><div class="stat-label">Storage</div></div>
+    </div>
+    <div class="tribute-card">
+      <h3>In Memory of Bayu ✦</h3>
+      <p>Setiap foto adalah cahaya yang tidak pernah padam. Kenangan ini akan selalu hidup di hati kita.</p>
+      <div class="tribute-years">Selalu dikenang · Selalu dicintai</div>
+    </div>
+    <div class="section-header">
+      <span class="section-title">Foto Terbaru</span>
+      <button class="section-link" onclick="gotoPage('gallery')">Lihat Semua</button>
+    </div>
+    <div class="feature-scroll" id="recentStrip">
+      <div class="feature-card-add" onclick="gotoPage('gallery')"><span>📷</span><p>Upload Foto</p></div>
+    </div>
+    <div class="section-header"><span class="section-title">Album</span></div>
+    <div class="room-tabs">
+      <div class="room-tab active" onclick="selectTab(this)">Semua</div>
+      <div class="room-tab" onclick="selectTab(this)">Keluarga</div>
+      <div class="room-tab" onclick="selectTab(this)">Momen</div>
+      <div class="room-tab" onclick="selectTab(this)">Kenangan</div>
+      <div class="room-tab" onclick="selectTab(this)">Favorit ⭐</div>
+    </div>
+    <div class="section-header"><span class="section-title">Aksi Cepat</span></div>
+    <div class="device-grid">
+      <div class="device-card on blue" onclick="startSlideshow()"><div class="device-icon">▶️</div><div class="device-name">Slideshow</div><div class="device-val">Putar semua</div></div>
+      <div class="device-card on orange" onclick="downloadAll()"><div class="device-icon">⬇️</div><div class="device-name">Download</div><div class="device-val">Semua foto</div></div>
+      <div class="device-card on teal" onclick="shareGallery()"><div class="device-icon">🔗</div><div class="device-name">Bagikan</div><div class="device-val">Link galeri</div></div>
+      <div class="device-card on pink" onclick="openGacha()"><div class="device-icon">🎰</div><div class="device-name">Gacha</div><div class="device-val">Acak foto</div></div>
+      <div class="device-card" onclick="gotoPage('gallery');setTimeout(()=>document.getElementById('searchInput').focus(),450)"><div class="device-icon">🔍</div><div class="device-name">Cari Foto</div><div class="device-val">Pencarian</div><div class="device-toggle off"></div></div>
+      <div class="device-card" onclick="gotoPage('settings')"><div class="device-icon">⚙️</div><div class="device-name">Pengaturan</div><div class="device-val">Kustomisasi</div><div class="device-toggle off"></div></div>
+    </div>
+  </div>
+
+  <!-- ══ GALLERY ══ -->
+  <div class="page" id="page-gallery">
+    <div class="topbar" id="tb-gallery">
+      <div><div style="font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text)">Galeri Foto</div>
+      <div class="page-sub" id="gallerySubtitle">Memuat...</div></div>
+    </div>
+    <div class="upload-area" id="dropArea">
+      <span class="upload-icon">📤</span>
+      <div class="upload-title">Seret & lepas foto di sini</div>
+      <div class="upload-sub">JPG · PNG · WEBP · Bisa banyak sekaligus</div>
+      <label class="upload-btn">＋ Pilih Foto<input type="file" id="fileInput" multiple accept="image/*" style="display:none"></label>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-label" id="progressLabel">Mengunggah...</div>
+      </div>
+    </div>
+    <div class="search-bar"><span>🔍</span><input type="text" placeholder="Cari foto..." id="searchInput" oninput="filterPhotos()"></div>
+    <div class="filter-pills">
+      <button class="filter-pill active" onclick="setFilter('all',this)">Semua</button>
+      <button class="filter-pill" onclick="setFilter('recent',this)">Terbaru</button>
+      <button class="filter-pill" onclick="setFilter('oldest',this)">Terlama</button>
+      <button class="filter-pill" onclick="setFilter('favorit',this)">Favorit ⭐</button>
+    </div>
+    <div class="gallery-controls">
+      <span class="section-title" id="photoCountEl">0 Foto</span>
+      <div class="layout-btns">
+        <button class="lbtn" onclick="setLayout(1,this)">☰</button>
+        <button class="lbtn active" onclick="setLayout(2,this)">⊞</button>
+        <button class="lbtn" onclick="setLayout(3,this)">⊟</button>
+      </div>
+    </div>
+    <div class="gallery-wrap"><div class="photo-masonry" id="photoGrid">
+      <div class="empty-state"><span class="empty-icon">🌅</span><div class="empty-title">Belum ada foto</div><div class="empty-sub">Upload foto pertama untuk memulai kenangan</div></div>
+    </div></div>
+  </div>
+
+  <!-- ══ MEMORIES ══ -->
+  <div class="page" id="page-memories">
+    <div class="topbar" id="tb-memories">
+      <div><div style="font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text)">Kenangan</div>
+      <div class="page-sub">Momen spesial tersimpan</div></div>
+    </div>
+    <div class="notice-card"><div class="notice-icon">💡</div><div class="notice-text">Tandai foto dengan ⭐ untuk menampilkannya di halaman ini.</div></div>
+    <div class="section-header"><span class="section-title">Slideshow</span></div>
+    <div class="slideshow-card" onclick="startSlideshow()">
+      <div style="font-size:2.2rem;margin-bottom:10px">▶️</div>
+      <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px">Putar Slideshow</div>
+      <div style="font-size:0.72rem;opacity:0.6">Tampilkan semua foto secara otomatis</div>
+    </div>
+    <div class="section-header"><span class="section-title">Gacha Foto 🎰</span></div>
+    <div class="slideshow-card" onclick="openGacha()" style="background:linear-gradient(135deg,#1a0533,#4c1d95,#7c3aed)">
+      <div style="font-size:2.2rem;margin-bottom:10px">🎰</div>
+      <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px">Spin & Temukan Kenangan</div>
+      <div style="font-size:0.72rem;opacity:0.6">Putar roda & dapatkan foto random!</div>
+    </div>
+    <div class="section-header"><span class="section-title">Foto Favorit ⭐</span></div>
+    <div class="gallery-wrap"><div class="photo-masonry" id="favGrid">
+      <div class="empty-state"><span class="empty-icon">⭐</span><div class="empty-title">Belum ada favorit</div><div class="empty-sub">Klik ⭐ pada foto untuk menandai</div></div>
+    </div></div>
+  </div>
+
+  <!-- ══ SETTINGS ══ -->
+  <div class="page" id="page-settings">
+    <div class="topbar" id="tb-settings">
+      <div><div style="font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text)">Pengaturan</div>
+      <div class="page-sub">Kustomisasi galerimu</div></div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">Profil</div>
+      <div class="settings-group">
+        <div class="settings-item"><div class="si-left"><div class="si-icon si-blue">👤</div><div class="si-text"><h4>Nama Galeri</h4><p>In Memory of Bayu</p></div></div><div class="si-right">›</div></div>
+        <div class="settings-item"><div class="si-left"><div class="si-icon si-purple">🖼️</div><div class="si-text"><h4>Foto Profil</h4><p>Ubah avatar</p></div></div><div class="si-right"><label style="cursor:pointer;font-size:0.72rem;color:var(--accent);font-weight:600;padding:5px 12px;background:var(--accent-light);border-radius:100px">Pilih<input type="file" accept="image/*" id="avatarInput" style="display:none" onchange="changeAvatar(event)"></label></div></div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">Tampilan</div>
+      <div class="settings-group">
+        <div class="settings-item"><div class="si-left"><div class="si-icon si-purple">🌙</div><div class="si-text"><h4>Mode Gelap</h4><p>Aktifkan dark mode</p></div></div><div class="si-right"><div class="toggle-sw" id="darkToggle" onclick="toggleTheme()"></div></div></div>
+        <div class="settings-item" style="cursor:default"><div class="si-left" style="width:100%;flex-direction:column;align-items:flex-start;gap:8px">
+          <div style="display:flex;align-items:center;gap:12px;width:100%"><div class="si-icon si-orange">🎨</div><div class="si-text"><h4>Warna Aksen</h4><p>Pilih warna tema</p></div></div>
+          <div class="theme-colors">
+            <div class="color-dot active" style="background:#4361ee" onclick="setAccent('#4361ee','#eef2ff',this)"></div>
+            <div class="color-dot" style="background:#7c3aed" onclick="setAccent('#7c3aed','#ede9fe',this)"></div>
+            <div class="color-dot" style="background:#ec4899" onclick="setAccent('#ec4899','#fce7f3',this)"></div>
+            <div class="color-dot" style="background:#14b8a6" onclick="setAccent('#14b8a6','#ccfbf1',this)"></div>
+            <div class="color-dot" style="background:#22c55e" onclick="setAccent('#22c55e','#dcfce7',this)"></div>
+            <div class="color-dot" style="background:#f97316" onclick="setAccent('#f97316','#ffedd5',this)"></div>
+            <div class="color-dot" style="background:#ef4444" onclick="setAccent('#ef4444','#fee2e2',this)"></div>
+            <div class="color-dot" style="background:#1a1d2e" onclick="setAccent('#1a1d2e','#e4e7f0',this)"></div>
+          </div>
+        </div></div>
+        <div class="settings-item"><div class="si-left"><div class="si-icon si-blue">📐</div><div class="si-text"><h4>Kolom Galeri</h4><p id="colLabel">2 kolom</p></div></div>
+        <div class="si-right" style="gap:5px">
+          <button onclick="setLayout(1,null,true)" style="padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-size:0.7rem;cursor:pointer;font-family:inherit;color:var(--text);transition:all 0.25s">1</button>
+          <button onclick="setLayout(2,null,true)" style="padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-size:0.7rem;cursor:pointer;font-family:inherit;color:var(--text);transition:all 0.25s">2</button>
+          <button onclick="setLayout(3,null,true)" style="padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-size:0.7rem;cursor:pointer;font-family:inherit;color:var(--text);transition:all 0.25s">3</button>
+        </div></div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">Galeri</div>
+      <div class="settings-group">
+        <div class="settings-item" onclick="openGacha()"><div class="si-left"><div class="si-icon si-pink">🎰</div><div class="si-text"><h4>Gacha Foto</h4><p>Spin foto random</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Spin →</div></div>
+        <div class="settings-item" onclick="startSlideshow()"><div class="si-left"><div class="si-icon si-blue">▶️</div><div class="si-text"><h4>Putar Slideshow</h4><p>Tampilkan semua foto</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Putar →</div></div>
+        <div class="settings-item" onclick="downloadAll()"><div class="si-left"><div class="si-icon si-green">⬇️</div><div class="si-text"><h4>Download Semua</h4><p>Unduh seluruh galeri</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Unduh →</div></div>
+        <div class="settings-item" onclick="shareGallery()"><div class="si-left"><div class="si-icon si-pink">🔗</div><div class="si-text"><h4>Bagikan Galeri</h4><p>Salin link halaman ini</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Share →</div></div>
+        <div class="settings-item" onclick="clearAll()"><div class="si-left"><div class="si-icon si-red">🗑️</div><div class="si-text"><h4>Hapus Semua Foto</h4><p>Tidak bisa dikembalikan!</p></div></div><div class="si-right" style="color:#ef4444;font-size:0.7rem;font-weight:700">Hapus</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:20px 22px 32px;font-size:0.72rem;color:var(--text3)">
+      Dibuat dengan ❤️ untuk mengenang <strong style="color:var(--accent)">Bayu</strong> · v2.1
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="gotoPage('home')" id="nav-home"><div class="nav-icon-wrap"><span class="nav-icon">🏠</span></div><span class="nav-label">Beranda</span></button>
+    <button class="nav-item" onclick="gotoPage('gallery')" id="nav-gallery" style="position:relative"><div class="nav-icon-wrap"><span class="nav-icon">🖼️</span></div><span class="nav-label">Galeri</span><span class="nav-badge" id="photoBadge" style="display:none">0</span></button>
+    <button class="nav-item" onclick="gotoPage('memories')" id="nav-memories"><div class="nav-icon-wrap"><span class="nav-icon">⭐</span></div><span class="nav-label">Kenangan</span></button>
+    <button class="nav-item" onclick="gotoPage('settings')" id="nav-settings"><div class="nav-icon-wrap"><span class="nav-icon">⚙️</span></div><span class="nav-label">Pengaturan</span></button>
+  </nav>
+</div>
+
+<!-- COMMENT SCRIM -->
+<div id="commentScrim" onclick="closeCommentPanel()"></div>
+
+<!-- COMMENT PANEL -->
+<div id="commentPanel">
+  <div class="cp-handle"></div>
+  <div class="cp-head">
+    <div class="cp-head-left">
+      <img class="cp-photo-thumb" id="cpThumb" src="" alt="">
+      <div class="cp-photo-info">
+        <h4 id="cpTitle">Foto</h4>
+        <p id="cpSubtitle">0 komentar · 0 suka</p>
+      </div>
+    </div>
+    <button class="cp-close" onclick="closeCommentPanel()">✕</button>
+  </div>
+
+  <!-- Like + Reactions row -->
+  <div class="cp-like-row">
+    <button class="cp-like-btn" id="cpLikeBtn" onclick="togglePhotoLike()">
+      <span class="cp-heart" id="cpHeart">🤍</span>
+      <span class="cp-like-count" id="cpLikeCount">0</span>
+      <span class="cp-like-label">Suka</span>
+    </button>
+    <div class="cp-reactions">
+      <button class="cp-emoji-btn" onclick="addReaction('❤️')" title="Cinta"><span>❤️</span><span class="emoji-count" id="emo-heart" style="display:none"></span></button>
+      <button class="cp-emoji-btn" onclick="addReaction('😢')" title="Sedih"><span>😢</span><span class="emoji-count" id="emo-sad" style="display:none"></span></button>
+      <button class="cp-emoji-btn" onclick="addReaction('😊')" title="Bahagia"><span>😊</span><span class="emoji-count" id="emo-happy" style="display:none"></span></button>
+      <button class="cp-emoji-btn" onclick="addReaction('🙏')" title="Doa"><span>🙏</span><span class="emoji-count" id="emo-pray" style="display:none"></span></button>
+    </div>
+  </div>
+
+  <!-- Comments list -->
+  <div class="cp-comments-wrap" id="cpCommentsList">
+    <div class="cp-empty">
+      <span class="cp-empty-icon">💬</span>
+      <p>Belum ada komentar. Jadilah yang pertama!</p>
+    </div>
+  </div>
+
+  <!-- Input row -->
+  <div class="cp-input-row">
+    <div class="cc-user-av" id="cpUserAv">Y</div>
+    <textarea class="cp-textarea" id="cpInput" placeholder="Tulis komentar..." rows="1"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';cpUpdateSendBtn()"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitComment();}"></textarea>
+    <button class="cp-send-btn" id="cpSendBtn" onclick="submitComment()" disabled title="Kirim">➤</button>
+  </div>
+</div>
+
+<!-- GACHA OVERLAY -->
+<div id="gachaOverlay">
+  <div class="gacha-counter" id="gachaCounter">0 foto</div>
+  <button class="gacha-close" onclick="closeGacha()">✕</button>
+  <div class="gacha-title">Gacha Kenangan ✨</div>
+  <div class="gacha-sub" id="gachaSub">Spin untuk menemukan foto spesial</div>
+  <div class="gacha-reel-wrap" id="gachaReelWrap">
+    <div class="gacha-center-line"></div>
+    <div class="gacha-reel" id="gachaReel">
+      <!-- filled by JS -->
+    </div>
+    <!-- result reveal layer -->
+    <div class="gacha-result" id="gachaResult">
+      <img id="gachaResultImg" src="" alt="" class="gacha-result-img">
+      <div class="gacha-result-overlay"></div>
+      <div class="gacha-result-label" id="gachaResultLabel"></div>
+    </div>
+    <div class="gacha-particles" id="gachaParticles"></div>
+  </div>
+  <button class="gacha-spin-btn" id="gachaSpinBtn" onclick="spinGacha()">
+    <span class="gacha-spin-icon">🎰</span> SPIN!
+  </button>
+  <div class="gacha-actions" id="gachaActions">
+    <button class="gacha-act-btn" onclick="gachaViewFull()">🔍 Lihat Penuh</button>
+    <button class="gacha-act-btn" onclick="gachaFav()">⭐ Favorit</button>
+    <button class="gacha-act-btn" onclick="gachaDl()">⬇ Unduh</button>
+    <button class="gacha-act-btn" onclick="spinGacha()">🔄 Spin Lagi</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lb-controls">
+    <button class="lb-btn" onclick="lbNav(-1)">← Prev</button>
+    <span class="lb-counter" id="lbCounter">1/1</span>
+    <button class="lb-btn" onclick="lbNav(1)">Next →</button>
+  </div>
+  <div class="lb-controls" style="margin-top:6px">
+    <button class="lb-like-btn" id="lbLikeBtn" onclick="lbToggleLike()">
+      <span class="lb-like-heart" id="lbHeart">🤍</span>
+      <span id="lbLikeCount">0</span>
+    </button>
+    <button class="lb-btn" onclick="lbOpenComments()">💬 Komentar</button>
+    <button class="lb-btn" onclick="lbDownload()">⬇ Unduh</button>
+    <button class="lb-btn" onclick="lbFavorite()">⭐</button>
+    <button class="lb-btn danger" onclick="lbDelete()">🗑</button>
+  </div>
+  <div class="lb-indicator" id="lbIndicator"></div>
+</div>
+
+<!-- SLIDESHOW -->
+<div id="slideshowOverlay">
+  <button class="ss-close" onclick="stopSlideshow()">✕</button>
+  <img id="ssImg" src="" alt="">
+  <div class="ss-progress"><div class="ss-progress-fill" id="ssProgressFill"></div></div>
+  <div class="ss-controls">
+    <button class="ss-btn" onclick="ssNav(-1)">← Prev</button>
+    <button class="ss-btn" id="ssPauseBtn" onclick="ssPause()">⏸ Pause</button>
+    <button class="ss-btn" onclick="ssNav(1)">Next →</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── SUPABASE ──
+const SUPABASE_URL='https://olkokmuburmgslpsiwpi.supabase.co';
+const SUPABASE_KEY='sb_publishable_FHgCHk8ocJPkEGWUiejlCA_BHRcN17v';
+const BUCKET='images';
+const {createClient}=supabase;
+const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+
+// ── STATE ──
+let photos=[], favorites=JSON.parse(localStorage.getItem('favs')||'[]');
+let activeFilterState='all', currentCols=2, lightboxIdx=0;
+let ssIdx=0, ssTimer=null, ssPaused=false;
+let toastTimer=null, currentPage='home';
+
+// ── GREETING ──
+(function(){
+  const h=new Date().getHours();
+  document.getElementById('timeGreet').textContent=
+    h<11?'Selamat pagi ☀️':h<15?'Selamat siang 🌤️':h<18?'Selamat sore 🌅':'Selamat malam 🌙';
+})();
+
+// ── TOPBAR SCROLL EFFECT ──
+document.querySelectorAll('.page').forEach(pg=>{
+  const id=pg.id.replace('page-','');
+  pg.addEventListener('scroll',()=>{
+    const tb=document.getElementById('tb-'+id);
+    if(tb) tb.classList.toggle('scrolled',pg.scrollTop>8);
+  },{passive:true});
+});
+
+// ── TOAST ──
+function toast(msg,type=''){
+  clearTimeout(toastTimer);
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='show '+(type||'');
+  toastTimer=setTimeout(()=>el.className='',3000);
+}
+
+// ── SMOOTH PAGE TRANSITION ──
+function gotoPage(name){
+  if(name===currentPage) return;
+  const prev=document.getElementById('page-'+currentPage);
+  const next=document.getElementById('page-'+name);
+  if(!next) return;
+
+  // exit current
+  prev.style.transition='opacity 0.28s cubic-bezier(0.4,0,1,1),transform 0.28s cubic-bezier(0.4,0,1,1)';
+  prev.style.opacity='0';
+  prev.style.transform='translateY(-10px) scale(0.98)';
+  prev.style.pointerEvents='none';
+
+  // prepare next (off-screen below)
+  next.style.transition='none';
+  next.style.opacity='0';
+  next.style.transform='translateY(20px)';
+  next.style.pointerEvents='none';
+  next.classList.add('active');
+
+  setTimeout(()=>{
+    prev.classList.remove('active');
+    prev.style.transition='';
+    prev.style.opacity=''; prev.style.transform='';
+
+    // animate next in
+    next.style.transition='opacity 0.38s cubic-bezier(0,0,0.2,1),transform 0.38s cubic-bezier(0,0,0.2,1)';
+    next.style.opacity='1';
+    next.style.transform='translateY(0)';
+    next.style.pointerEvents='auto';
+
+    setTimeout(()=>{
+      next.style.transition='';
+      next.style.opacity=''; next.style.transform='';
+    },400);
+  },200);
+
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-'+name)?.classList.add('active');
+  currentPage=name;
+  if(name==='memories') setTimeout(renderFavGrid,250);
+}
+
+// ── TABS ──
+function selectTab(el){document.querySelectorAll('.room-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+// ── THEME ──
+function toggleTheme(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'':'dark');
+  document.getElementById('darkToggle').classList.toggle('on',!isDark);
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('theme',isDark?'':'dark');
+}
+(()=>{if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.addEventListener('DOMContentLoaded',()=>{document.getElementById('darkToggle')?.classList.add('on');document.getElementById('themeBtn').textContent='☀️';});}})();
+
+// ── ACCENT ──
+function setAccent(c,l,el){
+  document.documentElement.style.setProperty('--accent',c);
+  document.documentElement.style.setProperty('--accent-light',l);
+  document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));
+  el?.classList.add('active');
+  localStorage.setItem('accent',JSON.stringify({c,l}));
+}
+(()=>{const a=JSON.parse(localStorage.getItem('accent')||'null');if(a){document.documentElement.style.setProperty('--accent',a.c);document.documentElement.style.setProperty('--accent-light',a.l);}})();
+
+// ── AVATAR ──
+function changeAvatar(e){
+  const f=e.target.files[0];if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{document.getElementById('avatarBtn').innerHTML=`<img src="${ev.target.result}" alt="">`;localStorage.setItem('avatar',ev.target.result);toast('Foto profil diperbarui','ok');};
+  r.readAsDataURL(f);
+}
+(()=>{const av=localStorage.getItem('avatar');if(av)document.getElementById('avatarBtn').innerHTML=`<img src="${av}" alt="">`;})();
+
+// ── LOAD ──
+async function loadPhotos(){
+  try{
+    const{data,error}=await sb.storage.from(BUCKET).list('',{limit:500,sortBy:{column:'created_at',order:'desc'}});
+    if(error) throw error;
+    photos=(data||[]).filter(f=>f.name&&/\.(jpe?g|png|webp|gif)$/i.test(f.name)).map(f=>{
+      const{data:u}=sb.storage.from(BUCKET).getPublicUrl(f.name);
+      return{name:f.name,url:u.publicUrl,created:f.created_at,size:f.metadata?.size||0};
+    });
+    renderGallery(); renderRecentStrip(); updateStats();
+  }catch(e){console.error(e);toast('Gagal memuat foto','err');}
+}
+
+// ── RENDER ──
+function renderGallery(){
+  const grid=document.getElementById('photoGrid');
+  const list=getFiltered();
+  document.getElementById('photoCountEl').textContent=list.length+' Foto';
+  document.getElementById('gallerySubtitle').textContent=list.length+' foto tersimpan';
+  if(!list.length){
+    grid.innerHTML=`<div class="empty-state"><span class="empty-icon">🌅</span><div class="empty-title">Tidak ada foto</div><div class="empty-sub">Coba filter lain atau upload foto baru</div></div>`;
+    updateBadge();return;
+  }
+  grid.innerHTML=list.map((p,i)=>{
+    const likeCount=getLikeCount(p.name);
+    const commentCount=getCommentCount(p.name);
+    const liked=isLiked(p.name);
+    return `
+    <div class="photo-item" style="animation-delay:${Math.min(i*0.045,0.55)}s">
+      <img src="${p.url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
+      <div class="photo-like-bar${likeCount>0?' has-likes':''}">
+        <span class="plb-heart">${liked?'❤️':'🤍'}</span>
+        <span class="plb-count">${likeCount}</span>
+      </div>
+      ${commentCount>0?`<div class="photo-comment-badge has-comments">💬 ${commentCount}</div>`:''}
+      <div class="photo-overlay">
+        <div class="photo-date">${fmtDate(p.created)}</div>
+        <div class="photo-actions">
+          <button class="photo-act-btn" onclick="openLightbox(${photos.indexOf(p)});event.stopPropagation()">🔍</button>
+          <button class="photo-act-btn" onclick="quickLike('${p.name}',this,event);event.stopPropagation()">${liked?'❤️':'🤍'}</button>
+          <button class="photo-act-btn" onclick="openCommentPanel('${p.name}');event.stopPropagation()">💬</button>
+          <button class="photo-act-btn" onclick="toggleFav('${p.name}');event.stopPropagation()">${favorites.includes(p.name)?'⭐':'☆'}</button>
+          <button class="photo-act-btn del" onclick="deletePhoto('${p.name}');event.stopPropagation()">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('.photo-item img').forEach((img,i)=>{img.onclick=()=>openLightbox(photos.indexOf(list[i]));});
+  updateBadge();
+}
+
+function renderFavGrid(){
+  const grid=document.getElementById('favGrid');
+  const fp=photos.filter(p=>favorites.includes(p.name));
+  if(!fp.length){grid.innerHTML=`<div class="empty-state"><span class="empty-icon">⭐</span><div class="empty-title">Belum ada favorit</div><div class="empty-sub">Klik ⭐ pada foto untuk menandai</div></div>`;return;}
+  grid.innerHTML=fp.map((p,i)=>`<div class="photo-item" style="animation-delay:${i*0.05}s"><img src="${p.url}" alt="${p.name}" loading="lazy"><div class="photo-overlay"><div class="photo-date">${fmtDate(p.created)}</div><div class="photo-actions"><button class="photo-act-btn" onclick="openLightbox(${photos.indexOf(p)});event.stopPropagation()">🔍</button><button class="photo-act-btn" onclick="toggleFav('${p.name}');event.stopPropagation()">⭐</button></div></div></div>`).join('');
+}
+
+function renderRecentStrip(){
+  const strip=document.getElementById('recentStrip');
+  const add=`<div class="feature-card-add" onclick="gotoPage('gallery')"><span>📷</span><p>Upload Foto</p></div>`;
+  if(!photos.length){strip.innerHTML=add;return;}
+  strip.innerHTML=add+photos.slice(0,8).map((p,i)=>`<div class="feature-card" style="animation-delay:${i*0.06}s" onclick="openLightbox(${i})"><img src="${p.url}" loading="lazy"><div class="feature-card-overlay"></div><div class="feature-card-label"><div class="live-dot"></div>${fmtDate(p.created)}</div></div>`).join('');
+}
+
+function updateStats(){
+  document.getElementById('statPhotos').textContent=photos.length;
+  document.getElementById('statSize').textContent=(photos.reduce((a,p)=>a+(p.size||0),0)/1024/1024).toFixed(1)+'MB';
+  if(photos.length){const e=new Date(Math.min(...photos.map(p=>new Date(p.created).getTime())));document.getElementById('statDays').textContent=Math.floor((Date.now()-e)/86400000);}
+}
+function updateBadge(){const b=document.getElementById('photoBadge');if(photos.length){b.style.display='flex';b.textContent=photos.length>99?'99+':photos.length;}else b.style.display='none';}
+
+// ── FILTER ──
+function setFilter(f,el){activeFilterState=f;document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));el?.classList.add('active');renderGallery();}
+function getFiltered(){
+  const q=document.getElementById('searchInput')?.value.toLowerCase()||'';
+  let l=[...photos];
+  if(activeFilterState==='recent') l.sort((a,b)=>new Date(b.created)-new Date(a.created));
+  else if(activeFilterState==='oldest') l.sort((a,b)=>new Date(a.created)-new Date(b.created));
+  else if(activeFilterState==='favorit') l=l.filter(p=>favorites.includes(p.name));
+  if(q) l=l.filter(p=>p.name.toLowerCase().includes(q));
+  return l;
+}
+function filterPhotos(){renderGallery();}
+
+// ── LAYOUT ──
+function setLayout(cols,btn,fromSettings=false){
+  currentCols=cols;
+  const g=document.getElementById('photoGrid');
+  g.className='photo-masonry'+(cols===1?' col1':cols===3?' col3':'');
+  if(btn){document.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  if(fromSettings){document.getElementById('colLabel').textContent=cols+' kolom';toast('Kolom galeri: '+cols);}
+}
+
+// ── UPLOAD ──
+const dropArea=document.getElementById('dropArea');
+document.getElementById('fileInput').addEventListener('change',e=>handleFiles(e.target.files));
+['dragenter','dragover'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.add('drag-over');}));
+['dragleave','drop'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.remove('drag-over');}));
+dropArea.addEventListener('drop',e=>handleFiles(e.dataTransfer.files));
+async function handleFiles(files){
+  if(!files.length) return;
+  const arr=Array.from(files).filter(f=>f.type.startsWith('image/'));
+  if(!arr.length) return toast('Hanya file gambar yang didukung','err');
+  const pw=document.getElementById('progressWrap'),pf=document.getElementById('progressFill'),pl=document.getElementById('progressLabel');
+  pw.style.display='block'; let done=0;
+  for(const file of arr){
+    const name=Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const{error}=await sb.storage.from(BUCKET).upload(name,file,{cacheControl:'3600',upsert:false});
+    done++; pf.style.width=(done/arr.length*100)+'%'; pl.textContent=`Mengunggah ${done}/${arr.length}...`;
+    if(error) toast('Gagal: '+file.name,'err');
+  }
+  pw.style.display='none'; pf.style.width='0';
+  toast('✅ '+done+' foto berhasil diunggah','ok');
+  await loadPhotos();
+}
+
+// ── DELETE ──
+async function deletePhoto(name){
+  if(!confirm('Hapus foto ini?')) return;
+  const{error}=await sb.storage.from(BUCKET).remove([name]);
+  if(error){toast('Gagal hapus foto','err');return;}
+  favorites=favorites.filter(f=>f!==name); localStorage.setItem('favs',JSON.stringify(favorites));
+  toast('Foto dihapus','ok'); await loadPhotos(); closeLightbox();
+}
+async function clearAll(){
+  if(!confirm('Hapus SEMUA foto? Tidak bisa dikembalikan!')) return;
+  if(!confirm('Yakin? '+photos.length+' foto akan dihapus!')) return;
+  const{error}=await sb.storage.from(BUCKET).remove(photos.map(p=>p.name));
+  if(error){toast('Gagal hapus semua','err');return;}
+  favorites=[];localStorage.setItem('favs','[]'); await loadPhotos(); toast('Semua foto dihapus','ok');
+}
+
+// ── FAV ──
+function toggleFav(name){
+  if(favorites.includes(name)){favorites=favorites.filter(f=>f!==name);toast('Dihapus dari favorit');}
+  else{favorites.push(name);toast('⭐ Ditambah ke favorit','ok');}
+  localStorage.setItem('favs',JSON.stringify(favorites)); renderGallery(); renderFavGrid();
+}
+
+// ── DOWNLOAD ──
+function dlPhoto(url,name){const a=document.createElement('a');a.href=url;a.download=name;a.target='_blank';a.click();toast('⬇ Mengunduh foto');}
+function downloadAll(){
+  if(!photos.length){toast('Belum ada foto','err');return;}
+  photos.slice(0,5).forEach((p,i)=>setTimeout(()=>dlPhoto(p.url,p.name),i*600));
+  toast(photos.length>5?'Mengunduh 5 foto pertama...':'Mengunduh '+photos.length+' foto...');
+}
+
+// ── SHARE ──
+function shareGallery(){
+  if(navigator.share) navigator.share({title:'In Memory of Bayu',url:location.href}).then(()=>toast('Berhasil dibagikan','ok'));
+  else{navigator.clipboard?.writeText(location.href);toast('🔗 Link disalin ke clipboard','ok');}
+}
+
+// ── LIGHTBOX ──
+function openLightbox(idx){
+  lightboxIdx=idx;
+  const lb=document.getElementById('lightbox');
+  lb.classList.add('active');
+  lbRender(false);
+  document.addEventListener('keydown',lbKey);
+  lb.addEventListener('touchstart',e=>{window._lbTX=e.touches[0].clientX;},{passive:true,once:false});
+  lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-window._lbTX;if(Math.abs(dx)>50)lbNav(dx<0?1:-1);},{passive:true,once:false});
+}
+function lbRender(anim=true){
+  const p=photos[lightboxIdx];if(!p) return;
+  const img=document.getElementById('lightboxImg');
+  if(anim){img.classList.add('swapping');setTimeout(()=>{img.src=p.url;img.classList.remove('swapping');},230);}
+  else img.src=p.url;
+  document.getElementById('lbCounter').textContent=`${lightboxIdx+1}/${photos.length}`;
+  const max=Math.min(photos.length,15);
+  document.getElementById('lbIndicator').innerHTML=Array.from({length:max},(_,i)=>`<div class="lb-dot${i===(lightboxIdx%max)?' active':''}" onclick="openLightbox(${i})"></div>`).join('');
+  // update like state
+  lbUpdateLike();
+}
+function lbNav(dir){lightboxIdx=(lightboxIdx+dir+photos.length)%photos.length;lbRender(true);}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.removeEventListener('keydown',lbKey);}
+function lbKey(e){if(e.key==='ArrowRight')lbNav(1);else if(e.key==='ArrowLeft')lbNav(-1);else if(e.key==='Escape')closeLightbox();}
+function lbDownload(){const p=photos[lightboxIdx];if(p)dlPhoto(p.url,p.name);}
+function lbFavorite(){const p=photos[lightboxIdx];if(p)toggleFav(p.name);}
+function lbDelete(){const p=photos[lightboxIdx];if(p)deletePhoto(p.name);}
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
+
+// ── SLIDESHOW ──
+const SS_DUR=4000;
+function startSlideshow(){
+  if(!photos.length){toast('Belum ada foto','err');return;}
+  ssIdx=0;ssPaused=false;
+  document.getElementById('ssPauseBtn').textContent='⏸ Pause';
+  document.getElementById('slideshowOverlay').classList.add('active');
+  ssShow(); ssStartTimer();
+}
+function ssShow(){
+  const img=document.getElementById('ssImg');
+  img.classList.add('ss-leave');
+  setTimeout(()=>{
+    img.src=photos[ssIdx]?.url||'';
+    img.classList.remove('ss-leave');
+    img.classList.add('ss-enter');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>img.classList.remove('ss-enter')));
+  },280);
+}
+function ssStartTimer(){
+  clearTimeout(ssTimer);
+  const fill=document.getElementById('ssProgressFill');
+  fill.style.transition='none';fill.style.width='0%';
+  requestAnimationFrame(()=>{fill.style.transition=`width ${SS_DUR}ms linear`;fill.style.width='100%';});
+  ssTimer=setTimeout(()=>{if(!ssPaused)ssNav(1);},SS_DUR);
+}
+function ssNav(dir){ssIdx=(ssIdx+dir+photos.length)%photos.length;ssShow();ssStartTimer();}
+function ssPause(){
+  ssPaused=!ssPaused;
+  document.getElementById('ssPauseBtn').textContent=ssPaused?'▶ Lanjut':'⏸ Pause';
+  if(ssPaused){clearTimeout(ssTimer);const f=document.getElementById('ssProgressFill');const w=parseFloat(f.style.width)||0;f.style.transition='none';f.style.width=w+'%';}
+  else ssStartTimer();
+}
+function stopSlideshow(){clearTimeout(ssTimer);document.getElementById('slideshowOverlay').classList.remove('active');}
+
+// ── HELPER ──
+function fmtDate(d){if(!d)return'';try{return new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});}catch{return'';}}
+
+// ── LIKE & COMMENT SYSTEM ──
+// Storage keys: 'likes_{photoName}' = count, 'liked_{photoName}' = bool
+//               'comments_{photoName}' = JSON array
+//               'reactions_{photoName}' = {emoji: count}
+
+let currentCommentPhoto = null;
+
+// ── LIKE HELPERS ──
+function getLikeCount(name){ return parseInt(localStorage.getItem('likes_'+name)||'0'); }
+function isLiked(name){ return localStorage.getItem('liked_'+name)==='1'; }
+function getCommentCount(name){ return (JSON.parse(localStorage.getItem('comments_'+name)||'[]')).length; }
+function getReactions(name){ return JSON.parse(localStorage.getItem('reactions_'+name)||'{}'); }
+
+function setLike(name, liked){
+  let count = getLikeCount(name);
+  if(liked){ count++; localStorage.setItem('liked_'+name,'1'); }
+  else{ count=Math.max(0,count-1); localStorage.removeItem('liked_'+name); }
+  localStorage.setItem('likes_'+name, count);
+  return count;
+}
+
+// Quick like from gallery card (with heart float animation)
+function quickLike(name, btn, e){
+  e.stopPropagation();
+  const liked = !isLiked(name);
+  const count = setLike(name, liked);
+  // float heart
+  if(liked) spawnFloatingHeart(e.clientX, e.clientY);
+  toast(liked ? '❤️ Disukai!' : 'Batal suka');
+  renderGallery();
+}
+
+function spawnFloatingHeart(x, y){
+  const el = document.createElement('div');
+  el.className = 'heart-float';
+  el.textContent = ['❤️','💕','💖','💗'][Math.floor(Math.random()*4)];
+  el.style.left = (x - 12) + 'px';
+  el.style.top  = (y - 12) + 'px';
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), 800);
+}
+
+// ── COMMENT PANEL ──
+function openCommentPanel(photoName){
+  currentCommentPhoto = photoName;
+  const photo = photos.find(p=>p.name===photoName);
+  if(!photo) return;
+
+  // set thumbnail & info
+  document.getElementById('cpThumb').src = photo.url;
+  document.getElementById('cpTitle').textContent = fmtDate(photo.created) || photo.name;
+  updateCpSubtitle();
+
+  // set user avatar from saved avatar
+  const av = localStorage.getItem('avatar');
+  const avEl = document.getElementById('cpUserAv');
+  avEl.innerHTML = av ? `<img src="${av}" alt="">` : 'K';
+
+  // render like state
+  renderCpLike();
+  // render reactions
+  renderCpReactions();
+  // render comments
+  renderComments();
+  // reset input
+  document.getElementById('cpInput').value = '';
+  document.getElementById('cpInput').style.height = 'auto';
+  cpUpdateSendBtn();
+
+  // open panel
+  const scrim = document.getElementById('commentScrim');
+  const panel = document.getElementById('commentPanel');
+  scrim.classList.add('active');
+  panel.classList.add('open');
+
+  // focus input after animation
+  setTimeout(()=> document.getElementById('cpInput').focus(), 400);
+}
+
+function closeCommentPanel(){
+  document.getElementById('commentScrim').classList.remove('active');
+  document.getElementById('commentPanel').classList.remove('open');
+  currentCommentPhoto = null;
+  // refresh gallery to update badges
+  renderGallery();
+}
+
+function updateCpSubtitle(){
+  if(!currentCommentPhoto) return;
+  const likes = getLikeCount(currentCommentPhoto);
+  const comments = getCommentCount(currentCommentPhoto);
+  document.getElementById('cpSubtitle').textContent = `${comments} komentar · ${likes} suka`;
+}
+
+function renderCpLike(){
+  if(!currentCommentPhoto) return;
+  const liked = isLiked(currentCommentPhoto);
+  const count = getLikeCount(currentCommentPhoto);
+  const btn = document.getElementById('cpLikeBtn');
+  btn.classList.toggle('liked', liked);
+  document.getElementById('cpHeart').textContent = liked ? '❤️' : '🤍';
+  document.getElementById('cpLikeCount').textContent = count;
+  updateCpSubtitle();
+}
+
+function togglePhotoLike(){
+  if(!currentCommentPhoto) return;
+  const liked = !isLiked(currentCommentPhoto);
+  setLike(currentCommentPhoto, liked);
+  if(liked){
+    // animate heart burst from button
+    const btn = document.getElementById('cpLikeBtn');
+    const r = btn.getBoundingClientRect();
+    spawnFloatingHeart(r.left + r.width/2, r.top);
+  }
+  renderCpLike();
+  toast(liked ? '❤️ Disukai!' : 'Batal suka');
+}
+
+// ── LIGHTBOX LIKE ──
+function lbUpdateLike(){
+  const p = photos[lightboxIdx]; if(!p) return;
+  const liked = isLiked(p.name);
+  const count = getLikeCount(p.name);
+  const btn = document.getElementById('lbLikeBtn');
+  btn.classList.toggle('liked', liked);
+  document.getElementById('lbHeart').textContent = liked ? '❤️' : '🤍';
+  document.getElementById('lbLikeCount').textContent = count || '';
+}
+
+function lbToggleLike(){
+  const p = photos[lightboxIdx]; if(!p) return;
+  const liked = !isLiked(p.name);
+  const count = setLike(p.name, liked);
+  if(liked){
+    const btn = document.getElementById('lbLikeBtn');
+    const r = btn.getBoundingClientRect();
+    spawnFloatingHeart(r.left + r.width/2, r.top);
+  }
+  lbUpdateLike();
+  toast(liked ? '❤️ Disukai!' : 'Batal suka');
+}
+
+function lbOpenComments(){
+  const p = photos[lightboxIdx]; if(!p) return;
+  closeLightbox();
+  setTimeout(()=> openCommentPanel(p.name), 200);
+}
+
+// ── REACTIONS ──
+const EMOJI_IDS = { '❤️':'heart','😢':'sad','😊':'happy','🙏':'pray' };
+function addReaction(emoji){
+  if(!currentCommentPhoto) return;
+  const key = 'reactions_'+currentCommentPhoto;
+  const reactions = getReactions(currentCommentPhoto);
+  reactions[emoji] = (reactions[emoji]||0) + 1;
+  localStorage.setItem(key, JSON.stringify(reactions));
+  renderCpReactions();
+  // float emoji
+  const id = EMOJI_IDS[emoji];
+  const btn = document.getElementById('emo-'+id)?.parentElement;
+  if(btn){
+    const r = btn.getBoundingClientRect();
+    spawnFloatingHeart(r.left + r.width/2, r.top);
+  }
+  toast(emoji + ' Reaksi ditambahkan!');
+}
+
+function renderCpReactions(){
+  if(!currentCommentPhoto) return;
+  const reactions = getReactions(currentCommentPhoto);
+  Object.entries(EMOJI_IDS).forEach(([emoji, id])=>{
+    const el = document.getElementById('emo-'+id);
+    if(!el) return;
+    const count = reactions[emoji]||0;
+    if(count > 0){ el.textContent = count > 99 ? '99+' : count; el.style.display='flex'; }
+    else el.style.display='none';
+  });
+}
+
+// ── COMMENTS ──
+function getComments(name){ return JSON.parse(localStorage.getItem('comments_'+name)||'[]'); }
+function saveComments(name, arr){ localStorage.setItem('comments_'+name, JSON.stringify(arr)); }
+
+function renderComments(){
+  if(!currentCommentPhoto) return;
+  const list = getComments(currentCommentPhoto);
+  const wrap = document.getElementById('cpCommentsList');
+  if(!list.length){
+    wrap.innerHTML=`<div class="cp-empty"><span class="cp-empty-icon">💬</span><p>Belum ada komentar. Jadilah yang pertama!</p></div>`;
+    return;
+  }
+  const av = localStorage.getItem('avatar');
+  wrap.innerHTML = list.map((c,i)=>`
+    <div class="cp-comment" id="cc-${i}">
+      <div class="cc-avatar">${av?`<img src="${av}" alt="">`:(c.author?c.author[0].toUpperCase():'K')}</div>
+      <div class="cc-body">
+        <div class="cc-top">
+          <span class="cc-name">${escHtml(c.author||'Kamu')}</span>
+          <span class="cc-time">${timeAgo(c.ts)}</span>
+        </div>
+        <div class="cc-text">${escHtml(c.text)}</div>
+        <div class="cc-actions">
+          <button class="cc-like-btn${c.liked?' liked':''}" onclick="toggleCommentLike(${i})">
+            ${c.liked?'❤️':'🤍'} ${c.likes>0?c.likes:''}
+          </button>
+          <button class="cc-del-btn" onclick="deleteComment(${i})">Hapus</button>
+        </div>
+      </div>
+    </div>`).join('');
+  // scroll to bottom
+  setTimeout(()=>{ wrap.scrollTop = wrap.scrollHeight; }, 50);
+}
+
+function cpUpdateSendBtn(){
+  const val = document.getElementById('cpInput').value.trim();
+  document.getElementById('cpSendBtn').disabled = !val;
+}
+
+function submitComment(){
+  if(!currentCommentPhoto) return;
+  const input = document.getElementById('cpInput');
+  const text = input.value.trim();
+  if(!text) return;
+
+  const comments = getComments(currentCommentPhoto);
+  comments.push({
+    text,
+    author: 'Kamu',
+    ts: Date.now(),
+    likes: 0,
+    liked: false
+  });
+  saveComments(currentCommentPhoto, comments);
+
+  input.value='';
+  input.style.height='auto';
+  cpUpdateSendBtn();
+  renderComments();
+  updateCpSubtitle();
+  toast('💬 Komentar dikirim!','ok');
+}
+
+function toggleCommentLike(idx){
+  if(!currentCommentPhoto) return;
+  const comments = getComments(currentCommentPhoto);
+  if(!comments[idx]) return;
+  comments[idx].liked = !comments[idx].liked;
+  comments[idx].likes = (comments[idx].likes||0) + (comments[idx].liked ? 1 : -1);
+  if(comments[idx].likes < 0) comments[idx].likes = 0;
+  saveComments(currentCommentPhoto, comments);
+  renderComments();
+}
+
+function deleteComment(idx){
+  if(!currentCommentPhoto) return;
+  if(!confirm('Hapus komentar ini?')) return;
+  const comments = getComments(currentCommentPhoto);
+  comments.splice(idx, 1);
+  saveComments(currentCommentPhoto, comments);
+  renderComments();
+  updateCpSubtitle();
+  toast('Komentar dihapus');
+}
+
+// ── UTILS ──
+function escHtml(s){ const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
+function timeAgo(ts){
+  const diff = (Date.now()-ts)/1000;
+  if(diff<60) return 'Baru saja';
+  if(diff<3600) return Math.floor(diff/60)+'m lalu';
+  if(diff<86400) return Math.floor(diff/3600)+'j lalu';
+  return Math.floor(diff/86400)+'h lalu';
+}
+
+// ── GACHA ──
+let gachaResultIdx = -1;
+let gachaSpinning = false;
+
+function openGacha() {
+  if (!photos.length) { toast('Upload foto dulu untuk main gacha!', 'err'); return; }
+  const ov = document.getElementById('gachaOverlay');
+  ov.classList.add('active');
+  document.getElementById('gachaCounter').textContent = photos.length + ' foto';
+  document.getElementById('gachaSub').textContent = 'Spin untuk menemukan foto spesial';
+  // reset state
+  document.getElementById('gachaResult').classList.remove('show');
+  document.getElementById('gachaActions').classList.remove('show');
+  document.getElementById('gachaReelWrap').classList.remove('landed', 'spinning');
+  document.getElementById('gachaSpinBtn').disabled = false;
+  document.getElementById('gachaSpinBtn').innerHTML = '<span class="gacha-spin-icon">🎰</span> SPIN!';
+  gachaResultIdx = -1;
+  gachaBuildReel();
+}
+
+function closeGacha() {
+  document.getElementById('gachaOverlay').classList.remove('active');
+  gachaSpinning = false;
+}
+
+function gachaBuildReel() {
+  const reel = document.getElementById('gachaReel');
+  // Build a long shuffled list for the scroll animation (30 items)
+  const pool = [];
+  while (pool.length < 30) {
+    const shuffled = [...photos].sort(() => Math.random() - 0.5);
+    pool.push(...shuffled);
+  }
+  const items = pool.slice(0, 30);
+  reel.innerHTML = items.map(p =>
+    `<div class="gacha-reel-item"><img src="${p.url}" loading="lazy" alt=""></div>`
+  ).join('');
+  // Reset position to top
+  reel.style.transition = 'none';
+  reel.style.transform = 'translateY(0px)';
+  reel._items = items;
+}
+
+function spinGacha() {
+  if (gachaSpinning) return;
+  if (!photos.length) return;
+  gachaSpinning = true;
+
+  const btn = document.getElementById('gachaSpinBtn');
+  const wrap = document.getElementById('gachaReelWrap');
+  const reel = document.getElementById('gachaReel');
+  const result = document.getElementById('gachaResult');
+  const actions = document.getElementById('gachaActions');
+
+  // Reset result
+  result.classList.remove('show');
+  actions.classList.remove('show');
+  wrap.classList.remove('landed');
+  wrap.classList.add('spinning');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="gacha-spin-icon" style="animation:spin 0.4s linear infinite">⏳</span> Spinning...';
+
+  // Add spin keyframe dynamically
+  if (!document.getElementById('spinStyle')) {
+    const s = document.createElement('style');
+    s.id = 'spinStyle';
+    s.textContent = '@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}';
+    document.head.appendChild(s);
+  }
+
+  // Rebuild reel fresh each spin
+  gachaBuildReel();
+
+  // Pick random winner
+  const winnerIdx = Math.floor(Math.random() * photos.length);
+  gachaResultIdx = winnerIdx;
+  const winner = photos[winnerIdx];
+
+  // Item height = 244px + 8px gap = 252px
+  const ITEM_H = 252;
+  const totalItems = reel._items.length;
+  // We want to land on item index 14 (middle-ish) which we'll set to winner
+  const landIndex = 14;
+  reel._items[landIndex] = winner;
+  // Update that specific DOM item
+  const domItems = reel.querySelectorAll('.gacha-reel-item img');
+  if (domItems[landIndex]) domItems[landIndex].src = winner.url;
+
+  // Calculate final translateY so landIndex item is centered in the 260px window
+  // Center of window = 130px, item center = landIndex * ITEM_H + 244/2 = landIndex*252+122
+  const finalY = -(landIndex * ITEM_H + 122 - 130);
+
+  // Multi-phase spin: fast acceleration → decelerate → land
+  const phases = [
+    { y: -(3 * ITEM_H), dur: 400, ease: 'cubic-bezier(0.4,0,1,1)' },       // fast start
+    { y: -(8 * ITEM_H), dur: 500, ease: 'linear' },                          // mid speed
+    { y: -(12 * ITEM_H), dur: 400, ease: 'linear' },                         // peak
+    { y: finalY,         dur: 900, ease: 'cubic-bezier(0,0,0.2,1)' },        // slow to stop
+  ];
+
+  let elapsed = 0;
+  function runPhase(i) {
+    if (i >= phases.length) {
+      // Landed!
+      wrap.classList.remove('spinning');
+      wrap.classList.add('landed');
+      gachaShowResult(winner);
+      gachaSpinning = false;
+      return;
+    }
+    const p = phases[i];
+    reel.style.transition = `transform ${p.dur}ms ${p.ease}`;
+    reel.style.transform = `translateY(${p.y}px)`;
+    elapsed += p.dur;
+    setTimeout(() => runPhase(i + 1), p.dur);
+  }
+  runPhase(0);
+}
+
+function gachaShowResult(photo) {
+  const result = document.getElementById('gachaResult');
+  const img = document.getElementById('gachaResultImg');
+  const label = document.getElementById('gachaResultLabel');
+  const actions = document.getElementById('gachaActions');
+  const sub = document.getElementById('gachaSub');
+  const btn = document.getElementById('gachaSpinBtn');
+
+  img.src = photo.url;
+  label.textContent = fmtDate(photo.created);
+  sub.textContent = '✨ Kenangan ditemukan!';
+
+  // Slight delay then show result overlay
+  setTimeout(() => {
+    result.classList.add('show');
+    gachaFireParticles();
+    setTimeout(() => {
+      actions.classList.add('show');
+      btn.disabled = false;
+      btn.innerHTML = '<span class="gacha-spin-icon">🔄</span> Spin Lagi';
+    }, 400);
+  }, 180);
+}
+
+function gachaFireParticles() {
+  const container = document.getElementById('gachaParticles');
+  container.innerHTML = '';
+  const colors = ['#4361ee','#ec4899','#22c55e','#f97316','#eab308','#14b8a6','#7c3aed','#ef4444'];
+  const cx = 130, cy = 130; // center of 260px box
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    const angle = (i / 28) * 360 * (Math.PI / 180);
+    const dist = 80 + Math.random() * 80;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+    el.style.cssText = `
+      left:${cx + (Math.random()-0.5)*40}px;
+      top:${cy + (Math.random()-0.5)*40}px;
+      background:${colors[i % colors.length]};
+      width:${4 + Math.random()*6}px;
+      height:${4 + Math.random()*6}px;
+      border-radius:${Math.random()>0.5?'50%':'3px'};
+      --tx:translateX(${tx}px);
+      --ty:translateY(${ty}px);
+      animation-delay:${Math.random()*0.15}s;
+      animation-duration:${0.6 + Math.random()*0.5}s;
+    `;
+    container.appendChild(el);
+  }
+  // Clear after animation
+  setTimeout(() => { container.innerHTML = ''; }, 1500);
+}
+
+function gachaViewFull() {
+  if (gachaResultIdx < 0) return;
+  closeGacha();
+  setTimeout(() => openLightbox(gachaResultIdx), 300);
+}
+
+function gachaFav() {
+  if (gachaResultIdx < 0) return;
+  const p = photos[gachaResultIdx];
+  if (p) toggleFav(p.name);
+}
+
+function gachaDl() {
+  if (gachaResultIdx < 0) return;
+  const p = photos[gachaResultIdx];
+  if (p) dlPhoto(p.url, p.name);
+}
+
+// ── INIT ──
+loadPhotos();
+</script>
+</body>
+</html>
