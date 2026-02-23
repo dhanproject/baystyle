@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayu Style — Royal Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #c9922a;
+  --gold-light: #e8c76a;
+  --gold-pale:  #f5dfa0;
+  --gold-dark:  #7a5518;
+  --cream:      #faf6ee;
+  --parchment:  #f0e8d4;
+  --dark:       #1a1208;
+  --deep:       #0d0b07;
+  --maroon:     #4a1020;
+  --navy:       #0e1a2e;
+  --shadow:     rgba(10,8,3,0.7);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--deep);
+  color: var(--cream);
+  font-family: 'Cormorant', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Texture overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.6;
+}
+
+/* ── Ambient background ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(201,146,42,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 90%, rgba(74,16,32,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(14,26,46,0.3) 0%, transparent 80%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ══════════════════════════════
+   ORNAMENTAL SVG ELEMENTS
+══════════════════════════════ */
+
+/* Crown watermark */
+.crown-watermark {
+  position: fixed;
+  bottom: -60px; right: -60px;
+  width: 400px; opacity: 0.025;
+  pointer-events: none; z-index: 1;
+  filter: sepia(1) brightness(2);
+}
+
+/* ══════════════════════════════
+   HEADER / PALACE GATE
+══════════════════════════════ */
+header {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 0;
+  background: linear-gradient(180deg, var(--deep) 0%, rgba(13,11,7,0.96) 100%);
+  border-bottom: 1px solid rgba(201,146,42,0.15);
+  overflow: hidden;
+}
+
+/* Top border ornament */
+.border-top {
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--gold-dark) 15%,
+    var(--gold) 35%, var(--gold-light) 50%,
+    var(--gold) 65%, var(--gold-dark) 85%, transparent 100%);
+  position: relative;
+}
+.border-top::after {
+  content: '✦';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--gold-light);
+  font-size: 1rem;
+  background: var(--deep);
+  padding: 0 10px;
+  line-height: 1;
+}
+
+/* Arch frame top */
+.arch-row {
+  display: flex;
+  justify-content: center;
+  padding: 30px 40px 0;
+  gap: 0;
+}
+
+.arch-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+/* Filigree line */
+.filigree {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.filigree-line {
+  height: 1px;
+  width: 100px;
+  background: linear-gradient(90deg, transparent, rgba(201,146,42,0.6));
+}
+.filigree-line.r { background: linear-gradient(90deg, rgba(201,146,42,0.6), transparent); }
+.filigree-diamond {
+  width: 5px; height: 5px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+.filigree-diamond.sm { width: 3px; height: 3px; }
+
+/* Crown SVG */
+.crown-icon {
+  margin-bottom: 12px;
+  animation: crownGlow 4s ease-in-out infinite alternate;
+}
+@keyframes crownGlow {
+  from { filter: drop-shadow(0 0 6px rgba(201,146,42,0.3)); }
+  to   { filter: drop-shadow(0 0 18px rgba(232,199,106,0.6)); }
+}
+
+/* Main title */
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  background: linear-gradient(180deg,
+    var(--gold-pale) 0%,
+    var(--gold-light) 30%,
+    var(--gold) 55%,
+    var(--gold-dark) 80%,
+    rgba(122,85,24,0.5) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 12px rgba(201,146,42,0.25));
+  margin-bottom: 6px;
+  animation: titleShimmer 5s ease-in-out infinite alternate;
+}
+@keyframes titleShimmer {
+  from { filter: drop-shadow(0 2px 8px rgba(201,146,42,0.2)) brightness(0.95); }
+  to   { filter: drop-shadow(0 2px 20px rgba(232,199,106,0.5)) brightness(1.08); }
+}
+
+.subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+.subtitle-line {
+  height: 1px; width: 60px;
+  background: linear-gradient(90deg, transparent, var(--gold-dark));
+}
+.subtitle-line.r { background: linear-gradient(90deg, var(--gold-dark), transparent); }
+.subtitle {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(201,146,42,0.6);
+  letter-spacing: 0.25em;
+}
+
+/* Roman numerals / year */
+.roman {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  color: rgba(201,146,42,0.35);
+  margin-bottom: 28px;
+}
+
+/* Bottom arch ornament */
+.header-bottom {
+  padding: 0 40px 0;
+  position: relative;
+}
+
+.arch-ornament {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
+/* ══════════════════════════════
+   UPLOAD SECTION
+══════════════════════════════ */
+.upload-section {
+  position: relative; z-index: 10;
+  padding: 50px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.section-label-line {
+  height: 1px; flex: 1;
+  background: linear-gradient(90deg, rgba(201,146,42,0.4), transparent);
+}
+.section-label-line.r { background: linear-gradient(90deg, transparent, rgba(201,146,42,0.4)); }
+.section-label-text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(201,146,42,0.5);
+  white-space: nowrap;
+}
+
+.upload-area {
+  position: relative;
+  border: 1px solid rgba(201,146,42,0.2);
+  padding: 50px 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  background: linear-gradient(135deg,
+    rgba(201,146,42,0.02) 0%,
+    transparent 50%,
+    rgba(74,16,32,0.03) 100%);
+  overflow: hidden;
+}
+
+/* Corner ornaments */
+.upload-area::before,
+.upload-area::after {
+  content: '';
+  position: absolute;
+  width: 30px; height: 30px;
+  border-color: rgba(201,146,42,0.4);
+  border-style: solid;
+  transition: all 0.4s ease;
+}
+.upload-area::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+.upload-area::after  { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+.upload-area:hover::before, .upload-area.drag-over::before { top: 6px; left: 6px; border-color: rgba(201,146,42,0.9); width: 40px; height: 40px; }
+.upload-area:hover::after,  .upload-area.drag-over::after  { bottom: 6px; right: 6px; border-color: rgba(201,146,42,0.9); width: 40px; height: 40px; }
+
+.upload-area:hover, .upload-area.drag-over {
+  border-color: rgba(201,146,42,0.6);
+  background: linear-gradient(135deg, rgba(201,146,42,0.05), rgba(74,16,32,0.05));
+}
+
+/* Inner corners */
+.corner { position: absolute; width: 30px; height: 30px; transition: all 0.4s ease; }
+.corner::before, .corner::after { content: ''; position: absolute; background: rgba(201,146,42,0.4); transition: background 0.4s; }
+.corner-tr { top: 10px; right: 10px; }
+.corner-tr::before { width: 1px; height: 30px; right: 0; top: 0; }
+.corner-tr::after  { width: 30px; height: 1px; right: 0; top: 0; }
+.corner-bl { bottom: 10px; left: 10px; }
+.corner-bl::before { width: 1px; height: 30px; left: 0; bottom: 0; }
+.corner-bl::after  { width: 30px; height: 1px; left: 0; bottom: 0; }
+.upload-area:hover .corner::before,
+.upload-area:hover .corner::after { background: rgba(201,146,42,0.9); }
+
+/* Medallion icon */
+.medallion {
+  display: inline-flex;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,146,42,0.3);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  position: relative;
+  background: radial-gradient(circle, rgba(201,146,42,0.06), transparent);
+  transition: transform 0.4s ease, border-color 0.4s;
+}
+.medallion::before {
+  content: '';
+  position: absolute; inset: 5px;
+  border-radius: 50%;
+  border: 1px dashed rgba(201,146,42,0.2);
+  animation: spin 20s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.upload-area:hover .medallion { border-color: rgba(201,146,42,0.7); transform: scale(1.05); }
+.medallion svg { width: 34px; height: 34px; stroke: var(--gold); stroke-width: 1.2; }
+
+.upload-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+
+.upload-sub {
+  font-family: 'Cormorant', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(250,246,238,0.4);
+  margin-bottom: 30px;
+  letter-spacing: 0.05em;
+}
+
+.btn-royal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold));
+  background-size: 200% 100%;
+  color: var(--dark);
+  padding: 13px 36px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0% 50%);
+}
+.btn-royal:hover {
+  background-position: 100% 0;
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(201,146,42,0.4);
+}
+
+#fileInput { display: none; }
+
+/* ══════════════════════════════
+   GALLERY HEADER
+══════════════════════════════ */
+.gallery-divider {
+  position: relative; z-index: 10;
+  display: flex;
+  align-items: center;
+  padding: 24px 60px;
+  gap: 20px;
+  border-top: 1px solid rgba(201,146,42,0.08);
+  border-bottom: 1px solid rgba(201,146,42,0.08);
+  background: rgba(201,146,42,0.02);
+}
+
+.gallery-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.gallery-heading h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(201,146,42,0.7);
+}
+
+.gold-badge {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--dark);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  letter-spacing: 0.1em;
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 50%, calc(100% - 6px) 100%, 6px 100%, 0% 50%);
+}
+
+.gallery-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.layout-group {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.layout-btn-royal {
+  background: transparent;
+  border: 1px solid rgba(201,146,42,0.2);
+  color: rgba(201,146,42,0.4);
+  width: 32px; height: 32px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.layout-btn-royal:hover, .layout-btn-royal.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,146,42,0.07);
+}
+
+.btn-clear {
+  background: transparent;
+  border: 1px solid rgba(201,146,42,0.15);
+  color: rgba(201,146,42,0.35);
+  padding: 6px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-clear:hover { border-color: var(--maroon); color: #c0392b; }
+
+/* ══════════════════════════════
+   GALLERY GRID
+══════════════════════════════ */
+#gallery {
+  position: relative; z-index: 10;
+  padding: 28px 60px 100px;
+  columns: 3;
+  column-gap: 18px;
+}
+#gallery.layout-2 { columns: 2; }
+#gallery.layout-4 { columns: 4; }
+
+@media (max-width: 960px) {
+  #gallery { columns: 2 !important; padding: 20px 24px 60px; }
+  .gallery-divider, .upload-section { padding-left: 24px; padding-right: 24px; }
+  .hero { padding: 0 24px 28px; }
+  .arch-row { padding: 24px 24px 0; }
+}
+@media (max-width: 560px) {
+  #gallery { columns: 1 !important; }
+  h1 { font-size: 3.5rem; }
+}
+
+/* Photo Item */
+.photo-item {
+  break-inside: avoid;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  animation: fadeReveal 0.6s ease both;
+}
+@keyframes fadeReveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.photo-item img {
+  width: 100%; height: auto; display: block;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: sepia(0.08) contrast(1.02);
+}
+.photo-item:hover img { transform: scale(1.06); filter: sepia(0) contrast(1.05); }
+
+/* Ornate border on hover */
+.photo-item::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  border: 1px solid transparent;
+  transition: border-color 0.4s;
+  box-shadow: inset 0 0 0 0 transparent;
+}
+.photo-item:hover::before {
+  border-color: rgba(201,146,42,0.5);
+  box-shadow: inset 0 0 30px rgba(201,146,42,0.06);
+}
+
+/* Corner ornaments on photo */
+.photo-corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  pointer-events: none; z-index: 3;
+  opacity: 0; transition: opacity 0.4s;
+}
+.photo-corner::before, .photo-corner::after {
+  content: ''; position: absolute;
+  background: var(--gold); opacity: 0.7;
+}
+.pc-tl { top: 8px; left: 8px; }
+.pc-tl::before { width: 1px; height: 20px; left: 0; top: 0; }
+.pc-tl::after  { width: 20px; height: 1px; left: 0; top: 0; }
+.pc-tr { top: 8px; right: 8px; }
+.pc-tr::before { width: 1px; height: 20px; right: 0; top: 0; }
+.pc-tr::after  { width: 20px; height: 1px; right: 0; top: 0; }
+.pc-bl { bottom: 8px; left: 8px; }
+.pc-bl::before { width: 1px; height: 20px; left: 0; bottom: 0; }
+.pc-bl::after  { width: 20px; height: 1px; left: 0; bottom: 0; }
+.pc-br { bottom: 8px; right: 8px; }
+.pc-br::before { width: 1px; height: 20px; right: 0; bottom: 0; }
+.pc-br::after  { width: 20px; height: 1px; right: 0; bottom: 0; }
+.photo-item:hover .photo-corner { opacity: 1; }
+
+/* Photo overlay */
+.photo-overlay {
+  position: absolute; inset: 0; z-index: 4;
+  background: linear-gradient(to top,
+    rgba(13,11,7,0.85) 0%,
+    rgba(13,11,7,0.2) 45%,
+    transparent 100%);
+  opacity: 0; transition: opacity 0.4s;
+  display: flex; align-items: flex-end;
+  padding: 16px;
+}
+.photo-item:hover .photo-overlay { opacity: 1; }
+
+.photo-actions {
+  display: flex; gap: 8px; width: 100%; justify-content: flex-end;
+}
+
+.pa-btn {
+  background: rgba(13,11,7,0.7);
+  border: 1px solid rgba(201,146,42,0.4);
+  color: var(--gold-light);
+  padding: 6px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+.pa-btn:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+.pa-btn.del:hover { background: var(--maroon); border-color: var(--maroon); color: var(--cream); }
+
+/* ══════════════════════════════
+   EMPTY STATE
+══════════════════════════════ */
+#emptyState {
+  break-inside: avoid;
+  padding: 80px 20px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.empty-emblem {
+  position: relative;
+  width: 130px; height: 130px;
+  margin: 0 auto 32px;
+}
+.empty-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.er1 { width: 60px; height: 60px; border-color: rgba(201,146,42,0.5); animation: pulseRing 3s ease-in-out infinite; }
+.er2 { width: 90px; height: 90px; border-color: rgba(201,146,42,0.25); animation: pulseRing 3s ease-in-out 0.5s infinite; }
+.er3 { width: 128px; height: 128px; border-color: rgba(201,146,42,0.1); animation: pulseRing 3s ease-in-out 1s infinite; }
+@keyframes pulseRing {
+  0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.04); }
+}
+.empty-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.2rem;
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-8px); }
+}
+.empty-h {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(201,146,42,0.6);
+  margin-bottom: 10px;
+}
+.empty-p {
+  font-family: 'Cormorant', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(250,246,238,0.25);
+}
+
+/* ══════════════════════════════
+   LIGHTBOX
+══════════════════════════════ */
+#lightbox {
+  position: fixed; inset: 0;
+  background: rgba(8,6,3,0.97);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+}
+#lightbox.active { display: flex; }
+
+.lb-frame {
+  position: relative;
+  animation: lbReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes lbReveal {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Decorative border around lightbox image */
+.lb-border {
+  position: relative;
+  padding: 12px;
+  border: 1px solid rgba(201,146,42,0.25);
+}
+.lb-border::before, .lb-border::after {
+  content: '';
+  position: absolute;
+  width: 24px; height: 24px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.6;
+}
+.lb-border::before { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+.lb-border::after  { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+
+.lb-border-tr, .lb-border-bl {
+  position: absolute;
+  width: 24px; height: 24px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.6;
+}
+.lb-border-tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
+.lb-border-bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
+
+#lightboxImg {
+  max-width: 85vw;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lb-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.lb-nav {
+  background: transparent;
+  border: 1px solid rgba(201,146,42,0.3);
+  color: var(--gold);
+  width: 40px; height: 40px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 50%, calc(100% - 6px) 100%, 6px 100%, 0% 50%);
+}
+.lb-nav:hover { background: var(--gold); color: var(--dark); }
+
+.lb-del {
+  background: transparent;
+  border: 1px solid rgba(201,146,42,0.2);
+  color: rgba(201,146,42,0.4);
+  padding: 8px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.lb-del:hover { border-color: var(--maroon); color: #c0392b; }
+
+.lb-close {
+  position: fixed;
+  top: 28px; right: 32px;
+  background: transparent;
+  border: 1px solid rgba(201,146,42,0.3);
+  color: var(--gold);
+  width: 44px; height: 44px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.lb-close:hover { background: rgba(201,146,42,0.15); border-color: var(--gold); }
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid rgba(201,146,42,0.08);
+}
+.footer-ornament {
+  display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px;
+}
+.f-line { height: 1px; width: 60px; background: linear-gradient(90deg, transparent, rgba(201,146,42,0.3)); }
+.f-line.r { background: linear-gradient(90deg, rgba(201,146,42,0.3), transparent); }
+footer p {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(201,146,42,0.2);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--gold-dark), var(--gold)); }
+::selection { background: rgba(201,146,42,0.3); color: var(--cream); }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="border-top"></div>
+
+  <!-- Crown SVG -->
+  <div style="display:flex;justify-content:center;padding:36px 40px 0;">
+    <div class="crown-icon">
+      <svg width="60" height="48" viewBox="0 0 60 48" fill="none">
+        <path d="M4 38 L8 18 L20 30 L30 8 L40 30 L52 18 L56 38 Z" stroke="#c9922a" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+        <rect x="2" y="38" width="56" height="6" rx="0" stroke="#c9922a" stroke-width="1.2" fill="none"/>
+        <circle cx="30" cy="8" r="2" fill="#c9922a" opacity="0.7"/>
+        <circle cx="8" cy="18" r="2" fill="#c9922a" opacity="0.7"/>
+        <circle cx="52" cy="18" r="2" fill="#c9922a" opacity="0.7"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Filigree + Title -->
+  <div style="padding: 14px 40px 0;">
+    <div class="filigree" style="justify-content:center;">
+      <div class="filigree-line"></div>
+      <div class="filigree-diamond sm"></div>
+      <div class="filigree-diamond"></div>
+      <div class="filigree-diamond sm"></div>
+      <div class="filigree-line r"></div>
+    </div>
+
+    <h1>BAYU STYLE</h1>
+
+    <div class="subtitle-row">
+      <div class="subtitle-line"></div>
+      <span class="subtitle">Royal Gallery & Collection</span>
+      <div class="subtitle-line r"></div>
+    </div>
+
+    <div class="roman">MMXXV &nbsp;·&nbsp; EST. MCMXCIX</div>
+  </div>
+
+  <!-- Bottom arch ornament -->
+  <div style="padding: 0 60px 32px; display:flex; align-items:center; gap:10px;">
+    <div style="flex:1; height:1px; background: linear-gradient(90deg, transparent, rgba(201,146,42,0.15));"></div>
+    <span style="color:rgba(201,146,42,0.3); font-size:0.7rem;">✦</span>
+    <div style="flex:1; height:1px; background: linear-gradient(90deg, rgba(201,146,42,0.15), transparent);"></div>
+  </div>
+</header>
+
+<!-- ─── UPLOAD ─── -->
+<div class="upload-section">
+  <div class="section-label">
+    <div class="section-label-line"></div>
+    <span class="section-label-text">I · Persembahkan Koleksi Anda</span>
+    <div class="section-label-line r"></div>
+  </div>
+
+  <div class="upload-area" id="uploadArea">
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+
+    <div class="medallion">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="1"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+    </div>
+
+    <div class="upload-heading">Tambahkan Foto Pilihan Anda</div>
+    <div class="upload-sub">Seret & lepaskan, atau pilih dari koleksi perangkat Anda</div>
+
+    <label for="fileInput" class="btn-royal">
+      ✦ &nbsp; Pilih Foto &nbsp; ✦
+    </label>
+    <input type="file" id="fileInput" multiple accept="image/*">
+  </div>
+</div>
+
+<!-- ─── GALLERY DIVIDER ─── -->
+<div class="gallery-divider">
+  <div class="gallery-heading">
+    <div style="width:1px; height:24px; background:rgba(201,146,42,0.3);"></div>
+    <h2>Galeri Koleksi</h2>
+    <div class="gold-badge" id="photoCount">0</div>
+  </div>
+  <div class="gallery-controls-right" id="galleryControls" style="display:none">
+    <div class="layout-group">
+      <button class="layout-btn-royal" onclick="setLayout(2)">II</button>
+      <button class="layout-btn-royal active" onclick="setLayout(3)">III</button>
+      <button class="layout-btn-royal" onclick="setLayout(4)">IV</button>
+    </div>
+    <button class="btn-clear" onclick="clearAll()">Hapus Semua</button>
+  </div>
+</div>
+
+<!-- ─── GALLERY ─── -->
+<div id="gallery">
+  <div id="emptyState">
+    <div class="empty-emblem">
+      <div class="empty-ring er1"></div>
+      <div class="empty-ring er2"></div>
+      <div class="empty-ring er3"></div>
+      <div class="empty-center">🏛️</div>
+    </div>
+    <div class="empty-h">Galeri Masih Kosong</div>
+    <div class="empty-p">Unggah foto pertama Anda untuk memulai koleksi</div>
+  </div>
+</div>
+
+<!-- ─── LIGHTBOX ─── -->
+<div id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <div class="lb-frame">
+    <div class="lb-border">
+      <div class="lb-border-tr"></div>
+      <div class="lb-border-bl"></div>
+      <img id="lightboxImg" src="" alt="">
+    </div>
+    <div class="lb-controls">
+      <button class="lb-nav" id="lbPrev">‹</button>
+      <button class="lb-del" id="lbDel">✦ Hapus Foto ✦</button>
+      <button class="lb-nav" id="lbNext">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-ornament">
+    <div class="f-line"></div>
+    <span style="color:rgba(201,146,42,0.2); font-size:0.65rem;">✦</span>
+    <div class="f-line r"></div>
+  </div>
+  <p>Bayu Style &nbsp;·&nbsp; Royal Gallery &nbsp;·&nbsp; MMXXV</p>
+</footer>
+
+<script>
+  const fileInput      = document.getElementById('fileInput');
+  const uploadArea     = document.getElementById('uploadArea');
+  const gallery        = document.getElementById('gallery');
+  const emptyState     = document.getElementById('emptyState');
+  const photoCountEl   = document.getElementById('photoCount');
+  const galleryControls = document.getElementById('galleryControls');
+  const lightbox       = document.getElementById('lightbox');
+  const lightboxImg    = document.getElementById('lightboxImg');
+
+  let photos = [], currentIdx = 0;
+
+  function updateUI() {
+    photoCountEl.textContent = photos.length;
+    galleryControls.style.display = photos.length > 0 ? 'flex' : 'none';
+  }
+
+  function renderGallery() {
+    gallery.innerHTML = '';
+    if (photos.length === 0) { gallery.appendChild(emptyState); return; }
+    photos.forEach((src, i) => {
+      const item = document.createElement('div');
+      item.className = 'photo-item';
+      item.style.animationDelay = `${Math.min(i * 0.05, 0.5)}s`;
+      item.innerHTML = `
+        <div class="photo-corner pc-tl"></div>
+        <div class="photo-corner pc-tr"></div>
+        <div class="photo-corner pc-bl"></div>
+        <div class="photo-corner pc-br"></div>
+        <img src="${src}" alt="Photo ${i+1}" loading="lazy">
+        <div class="photo-overlay">
+          <div class="photo-actions">
+            <button class="pa-btn" onclick="viewPhoto(${i});event.stopPropagation()">Lihat</button>
+            <button class="pa-btn del" onclick="removePhoto(${i});event.stopPropagation()">Hapus</button>
+          </div>
+        </div>
+      `;
+      item.addEventListener('click', () => viewPhoto(i));
+      gallery.appendChild(item);
+    });
+    updateUI();
+  }
+
+  function addPhotos(files) {
+    const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+    Promise.all(arr.map(f => new Promise(res => {
+      const r = new FileReader();
+      r.onload = e => res(e.target.result);
+      r.readAsDataURL(f);
+    }))).then(srcs => { photos = [...photos, ...srcs]; renderGallery(); });
+  }
+
+  function removePhoto(i) {
+    photos.splice(i, 1);
+    renderGallery();
+    if (lightbox.classList.contains('active')) {
+      if (!photos.length) closeLightbox();
+      else { currentIdx = Math.min(currentIdx, photos.length - 1); viewPhoto(currentIdx); }
+    }
+  }
+
+  function clearAll() {
+    if (confirm('Hapus seluruh koleksi galeri?')) { photos = []; renderGallery(); closeLightbox(); }
+  }
+
+  function viewPhoto(i) {
+    currentIdx = i;
+    lightboxImg.src = photos[i];
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  function setLayout(n) {
+    gallery.className = `layout-${n}`;
+    document.querySelectorAll('.layout-btn-royal').forEach((b, i) => {
+      b.classList.toggle('active', [2,3,4][i] === n);
+    });
+  }
+
+  document.getElementById('lbPrev').onclick = () => { currentIdx = (currentIdx - 1 + photos.length) % photos.length; lightboxImg.src = photos[currentIdx]; };
+  document.getElementById('lbNext').onclick = () => { currentIdx = (currentIdx + 1) % photos.length; lightboxImg.src = photos[currentIdx]; };
+  document.getElementById('lbDel').onclick  = () => removePhoto(currentIdx);
+
+  fileInput.addEventListener('change', e => { addPhotos(e.target.files); fileInput.value = ''; });
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+  uploadArea.addEventListener('drop', e => { e.preventDefault(); uploadArea.classList.remove('drag-over'); addPhotos(e.dataTransfer.files); });
+  document.addEventListener('dragover', e => e.preventDefault());
+  document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer.files.length) addPhotos(e.dataTransfer.files); });
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx-1+photos.length)%photos.length; lightboxImg.src = photos[currentIdx]; }
+    if (e.key === 'ArrowRight') { currentIdx = (currentIdx+1)%photos.length; lightboxImg.src = photos[currentIdx]; }
+  });
+
+  gallery.appendChild(emptyState);
+  updateUI();
+</script>
+</body>
+</html>
