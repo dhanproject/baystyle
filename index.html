@@ -47,7 +47,6 @@ body::before {
   opacity: 0.45;
   pointer-events: none; z-index: 0;
 }
-
 /* ── NAV ── */
 nav {
   position: sticky; top: 0; z-index: 100;
@@ -97,8 +96,7 @@ nav {
   position: relative; z-index: 10;
   text-align: center;
   padding: 72px 24px 56px;
-  max-width: 700px; margin: 0 auto;
-}
+  max-width: 700px; margin: 0 auto;}
 
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
@@ -147,8 +145,7 @@ h1 .accent {
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--black);
-  color: var(--white);
+  background: var(--black);  color: var(--white);
   padding: 13px 28px;
   border-radius: 100px;
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -198,7 +195,6 @@ h1 .accent {
   background: var(--green-bg);
   box-shadow: 0 0 0 4px rgba(34,197,94,0.08);
 }
-
 .drop-icon {
   width: 60px; height: 60px; border-radius: 16px;
   background: var(--gray-100);
@@ -247,8 +243,7 @@ h1 .accent {
   color: var(--white);
   font-size: 0.65rem; font-weight: 800;
   padding: 3px 10px; border-radius: 100px;
-  min-width: 26px; text-align: center;
-}
+  min-width: 26px; text-align: center;}
 
 .gallery-actions { display: flex; align-items: center; gap: 8px; }
 
@@ -297,8 +292,7 @@ h1 .accent {
 @media (max-width: 560px) {
   #gallery { columns: 1 !important; }
   .hero { padding: 48px 20px 40px; }
-  h1 { font-size: 2.2rem; }
-}
+  h1 { font-size: 2.2rem; }}
 
 /* Photo card */
 .photo-item {
@@ -347,8 +341,7 @@ h1 .accent {
   break-inside: avoid;
   grid-column: 1 / -1;
   text-align: center; padding: 80px 20px;
-  display: flex; flex-direction: column; align-items: center;
-}
+  display: flex; flex-direction: column; align-items: center;}
 .empty-icon-wrap {
   width: 80px; height: 80px; border-radius: 24px;
   background: var(--white);
@@ -397,8 +390,7 @@ h1 .accent {
 }
 .lb-btn:hover { background: rgba(255,255,255,0.2); }
 .lb-btn.danger:hover { background: #ef4444; border-color: #ef4444; }
-.lb-close {
-  position: fixed; top: 24px; right: 24px;
+.lb-close {  position: fixed; top: 24px; right: 24px;
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.15);
   color: white; width: 42px; height: 42px; border-radius: 50%;
@@ -447,8 +439,7 @@ footer span { color: var(--green-dark); font-weight: 700; }
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">
+<nav>  <div class="nav-logo">
     <div class="nav-logo-icon">🌿</div>
     <span class="nav-logo-text">In Memory of Bayu</span>
   </div>
@@ -497,8 +488,7 @@ footer span { color: var(--green-dark); font-weight: 700; }
     </label>
     <input type="file" id="fileInput2" multiple accept="image/*" style="display:none">
     <div class="upload-progress" id="uploadProgress">
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-label" id="progressLabel">Mengunggah...</div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>      <div class="progress-label" id="progressLabel">Mengunggah...</div>
     </div>
   </div>
 </div>
@@ -546,13 +536,13 @@ footer span { color: var(--green-dark); font-weight: 700; }
 
 <!-- FOOTER -->
 <footer>
-  <p>Dibuat dengan ❤️ untuk mengenang <span>Bayu</span> · Foto tersimpan aman di cloud</p>
+  <p>Dibuat dengan 🥶 untuk mengenang <span>Bayu</span> · Foto tersimpan aman di cloud</p>
 </footer>
-
 <script>
   // ── SUPABASE CONFIG ──
   const SUPABASE_URL = 'https://olkokmuburmgslpsiwpi.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_FHgCHk8ocJPkEGWUiejlCA_BHRcN17v';
+  // Perbaikan: Hapus prefix 'sb_publishable_' karena itu bukan bagian dari key
+  const SUPABASE_KEY = 'FHgCHk8ocJPkEGWUiejlCA_BHRcN17v'; 
   const BUCKET       = 'images';
 
   const { createClient } = supabase;
@@ -592,9 +582,220 @@ footer span { color: var(--green-dark); font-weight: 700; }
     statusText.textContent = text;
   }
 
-  // ── LOAD ──
+  // ── LOAD PHOTOS ──
   async function loadPhotos() {
     setStatus('loading', 'Memuat...');
     try {
-      const { data, error } = await sb.storage.from(BUCKET).list('', {
-        limit: 500, s
+      // Mengambil daftar file dari bucket      const { data, error } = await sb.storage.from(BUCKET).list('', {
+        limit: 500,
+        offset: 0,
+        sortBy: { column: 'created_at', order: 'desc' },
+      });
+
+      if (error) throw error;
+
+      photos = data.map(file => ({
+        name: file.name,
+        url: sb.storage.from(BUCKET).getPublicUrl(file.name).data.publicUrl,
+        created_at: file.created_at
+      }));
+
+      renderGallery();
+      setStatus('connected', 'Online');
+    } catch (err) {
+      console.error('Error loading photos:', err);
+      setStatus('error', 'Gagal Memuat');
+      showToast('Gagal mengambil foto dari server', 'err');
+    }
+  }
+
+  // ── UPLOAD FUNCTION ──
+  async function uploadFiles(files) {
+    if (!files || files.length === 0) return;
+
+    uploadProgress.style.display = 'block';
+    progressFill.style.width = '0%';
+    
+    let uploadedCount = 0;
+    const totalFiles = files.length;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      
+      // Validasi tipe file
+      if (!file.type.startsWith('image/')) {
+        showToast(`${file.name} bukan gambar`, 'err');
+        continue;
+      }
+
+      // Generate nama unik untuk menghindari duplikat
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+      try {
+        const { data, error } = await sb.storage
+          .from(BUCKET)
+          .upload(fileName, file, {            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (error) throw error;
+
+        uploadedCount++;
+        const percent = Math.round((uploadedCount / totalFiles) * 100);
+        progressFill.style.width = `${percent}%`;
+        progressLabel.textContent = `Mengunggah ${uploadedCount}/${totalFiles}...`;
+
+      } catch (err) {
+        console.error('Upload error:', err);
+        showToast(`Gagal upload ${file.name}`, 'err');
+      }
+    }
+
+    uploadProgress.style.display = 'none';
+    progressFill.style.width = '0%';
+    
+    if (uploadedCount > 0) {
+      showToast(`${uploadedCount} foto berhasil diupload`, 'ok');
+      await loadPhotos(); // Reload galeri
+    }
+  }
+
+  // ── RENDER GALLERY ──
+  function renderGallery() {
+    gallery.innerHTML = '';
+    photoCountEl.textContent = photos.length;
+
+    if (photos.length === 0) {
+      gallery.appendChild(emptyState);
+      galleryControls.style.display = 'none';
+      return;
+    }
+
+    galleryControls.style.display = 'flex';
+
+    photos.forEach((photo, index) => {
+      const item = document.createElement('div');
+      item.className = 'photo-item';
+      item.onclick = (e) => {
+        if (!e.target.closest('.photo-btn')) openLightbox(index);
+      };
+
+      item.innerHTML = `
+        <img src="${photo.url}" alt="${photo.name}" loading="lazy">
+        <div class="photo-overlay">
+          <div class="photo-btns">            <button class="photo-btn del" onclick="deletePhoto('${photo.name}', event)">Hapus</button>
+          </div>
+        </div>
+      `;
+      gallery.appendChild(item);
+    });
+  }
+
+  // ── DELETE PHOTO ──
+  async function deletePhoto(fileName, event) {
+    event.stopPropagation();
+    if (!confirm('Yakin ingin menghapus foto ini?')) return;
+
+    try {
+      const { error } = await sb.storage.from(BUCKET).remove([fileName]);
+      if (error) throw error;
+      
+      showToast('Foto berhasil dihapus', 'ok');
+      await loadPhotos();
+    } catch (err) {
+      console.error('Delete error:', err);
+      showToast('Gagal menghapus foto', 'err');
+    }
+  }
+
+  // ── CLEAR ALL ──
+  async function clearAll() {
+    if (!confirm('PERINGATAN: Ini akan menghapus SEMUA foto. Lanjutkan?')) return;
+
+    const fileNames = photos.map(p => p.name);
+    try {
+      const { error } = await sb.storage.from(BUCKET).remove(fileNames);
+      if (error) throw error;
+      
+      showToast('Semua foto dihapus', 'ok');
+      await loadPhotos();
+    } catch (err) {
+      console.error('Clear all error:', err);
+      showToast('Gagal menghapus semua foto', 'err');
+    }
+  }
+
+  // ── LAYOUT ──
+  function setLayout(cols) {
+    gallery.className = '';
+    if (cols !== 3) gallery.classList.add(`layout-${cols}`);
+    
+    document.querySelectorAll('.lt-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+  // ── LIGHTBOX ──
+  function openLightbox(index) {
+    currentIdx = index;
+    lightboxImg.src = photos[index].url;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('lbNext').onclick = () => {
+    currentIdx = (currentIdx + 1) % photos.length;
+    lightboxImg.src = photos[currentIdx].url;
+  };
+
+  document.getElementById('lbPrev').onclick = () => {
+    currentIdx = (currentIdx - 1 + photos.length) % photos.length;
+    lightboxImg.src = photos[currentIdx].url;
+  };
+
+  document.getElementById('lbDel').onclick = () => {
+    deletePhoto(photos[currentIdx].name, { stopPropagation: () => {} });
+    closeLightbox();
+  };
+
+  lightbox.onclick = (e) => {
+    if (e.target === lightbox) closeLightbox();
+  };
+
+  // ── EVENT LISTENERS ──
+  fileInput.addEventListener('change', (e) => uploadFiles(e.target.files));
+  fileInput2.addEventListener('change', (e) => uploadFiles(e.target.files));
+
+  // Drag & Drop
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, () => dropArea.classList.add('drag-over'), false);
+  });
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, () => dropArea.classList.remove('drag-over'), false);
+  });
+
+  dropArea.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    uploadFiles(files);
+  });
+
+  // Init
+  loadPhotos();
+
+</script>
+</body>
+</html>
