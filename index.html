@@ -57,7 +57,7 @@ body{
 
 .app-shell{max-width:430px;margin:0 auto;min-height:100vh;position:relative;overflow:hidden;}
 
-/* ── PAGES: smooth fade+slide transition ── */
+/* ── PAGES ── */
 .page{
   position:absolute;inset:0;
   overflow-y:auto;overflow-x:hidden;
@@ -604,7 +604,6 @@ body{
 }
 .gacha-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);margin-bottom:32px;text-align:center;letter-spacing:0.05em;}
 
-/* Slot reel window */
 .gacha-reel-wrap{
   position:relative;
   width:260px;height:260px;
@@ -614,14 +613,12 @@ body{
   overflow:hidden;
   box-shadow:0 0 60px rgba(67,97,238,0.3),inset 0 0 40px rgba(0,0,0,0.4);
 }
-/* shine bands at top & bottom */
 .gacha-reel-wrap::before,.gacha-reel-wrap::after{
   content:'';position:absolute;left:0;right:0;height:60px;z-index:5;pointer-events:none;
 }
 .gacha-reel-wrap::before{top:0;background:linear-gradient(to bottom,rgba(8,10,22,0.9) 0%,transparent 100%);}
 .gacha-reel-wrap::after{bottom:0;background:linear-gradient(to top,rgba(8,10,22,0.9) 0%,transparent 100%);}
 
-/* center highlight line */
 .gacha-center-line{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:calc(100% - 20px);height:2px;z-index:6;
@@ -632,13 +629,11 @@ body{
 }
 .gacha-reel-wrap.spinning .gacha-center-line{opacity:1;}
 
-/* The reel itself — vertical strip of images */
 .gacha-reel{
   display:flex;flex-direction:column;
   align-items:center;
   gap:8px;
   padding:8px;
-  /* JS sets transform translateY */
   will-change:transform;
 }
 .gacha-reel-item{
@@ -648,7 +643,6 @@ body{
 }
 .gacha-reel-item img{width:100%;height:100%;object-fit:cover;display:block;}
 
-/* Result reveal */
 .gacha-result{
   position:absolute;inset:0;z-index:10;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -674,7 +668,6 @@ body{
   text-align:center;
 }
 
-/* Particles burst */
 .gacha-particles{
   position:absolute;inset:0;pointer-events:none;z-index:7;overflow:hidden;border-radius:26px;
 }
@@ -688,7 +681,6 @@ body{
   100%{transform:var(--tx,0) var(--ty,0) scale(0);opacity:0;}
 }
 
-/* Spin button */
 .gacha-spin-btn{
   margin-top:24px;
   display:flex;align-items:center;gap:10px;
@@ -706,7 +698,6 @@ body{
 .gacha-spin-icon{font-size:1.2rem;transition:transform 0.6s;display:inline-block;}
 .gacha-spin-btn:not(:disabled):hover .gacha-spin-icon{transform:rotate(360deg);}
 
-/* Action row below */
 .gacha-actions{
   display:flex;gap:8px;margin-top:14px;
   opacity:0;pointer-events:none;
@@ -723,7 +714,6 @@ body{
 .gacha-act-btn:hover{background:rgba(255,255,255,0.22);transform:translateY(-2px);}
 .gacha-act-btn:active{transform:scale(0.9);}
 
-/* rainbow glow when result lands */
 @keyframes rainbowGlow{
   0%{box-shadow:0 0 60px rgba(67,97,238,0.3),inset 0 0 40px rgba(0,0,0,0.4);}
   25%{box-shadow:0 0 80px rgba(236,72,153,0.6),inset 0 0 40px rgba(0,0,0,0.4);}
@@ -733,7 +723,6 @@ body{
 }
 .gacha-reel-wrap.landed{animation:rainbowGlow 1.5s ease infinite;}
 
-/* counter badge */
 .gacha-counter{
   position:absolute;top:22px;left:22px;
   background:rgba(255,255,255,0.1);
@@ -747,7 +736,6 @@ body{
    LIKE & COMMENT SYSTEM
 ══════════════════════════════ */
 
-/* Like badge on photo cards */
 .photo-like-bar{
   position:absolute;top:8px;left:8px;
   display:flex;align-items:center;gap:4px;
@@ -764,7 +752,6 @@ body{
 .plb-heart{font-size:0.72rem;line-height:1;}
 .plb-count{font-size:0.62rem;font-weight:700;color:#fff;}
 
-/* Comment count badge */
 .photo-comment-badge{
   position:absolute;top:8px;right:8px;
   background:rgba(0,0,0,0.45);
@@ -778,7 +765,7 @@ body{
 .photo-item:hover .photo-comment-badge,
 .photo-comment-badge.has-comments{ opacity:1; }
 
-/* ── COMMENT PANEL (bottom sheet) ── */
+/* ── COMMENT PANEL ── */
 #commentPanel{
   position:fixed;
   bottom:0;left:50%;
@@ -799,14 +786,12 @@ body{
   opacity:1;
 }
 
-/* drag handle */
 .cp-handle{
   width:36px;height:4px;border-radius:100px;
   background:var(--border);
   margin:12px auto 0;flex-shrink:0;
 }
 
-/* panel header */
 .cp-head{
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 20px 12px;flex-shrink:0;
@@ -830,7 +815,6 @@ body{
 }
 .cp-close:hover{ background:var(--border);transform:rotate(90deg) scale(1.1); }
 
-/* like row */
 .cp-like-row{
   display:flex;align-items:center;gap:10px;
   padding:14px 20px;flex-shrink:0;
@@ -870,7 +854,6 @@ body{
 }
 .cp-like-btn.liked .cp-like-label{ color:rgba(255,255,255,0.8); }
 
-/* emoji quick reactions */
 .cp-reactions{
   display:flex;align-items:center;gap:6px;
   margin-left:auto;
@@ -896,7 +879,6 @@ body{
   animation:badgePop 0.35s var(--spring);
 }
 
-/* heart burst animation */
 @keyframes heartBurst{
   0%{ transform:scale(0) translateY(0); opacity:1; }
   60%{ transform:scale(1.4) translateY(-30px); opacity:1; }
@@ -952,7 +934,6 @@ body{
 }
 .cc-del-btn:hover{ color:#ef4444; }
 
-/* empty comments */
 .cp-empty{
   text-align:center;padding:36px 0;color:var(--text2);
 }
@@ -1003,7 +984,6 @@ body{
 .cp-send-btn:active{ transform:scale(0.88); }
 .cp-send-btn:disabled{ opacity:0.4;cursor:not-allowed;transform:none; }
 
-/* backdrop scrim */
 #commentScrim{
   position:fixed;inset:0;background:rgba(0,0,0,0);z-index:3999;
   pointer-events:none;
@@ -1011,7 +991,6 @@ body{
 }
 #commentScrim.active{ background:rgba(0,0,0,0.45);pointer-events:auto; }
 
-/* Like button in lightbox */
 .lb-like-btn{
   display:flex;align-items:center;gap:6px;
   background:rgba(255,255,255,0.11);border:1px solid rgba(255,255,255,0.2);
@@ -1029,6 +1008,137 @@ body{
 }
 .lb-like-heart{ font-size:0.95rem;transition:transform 0.42s var(--spring);display:inline-block; }
 .lb-like-btn.liked .lb-like-heart{ transform:scale(1.3); }
+
+/* ══════════════════════════════
+   ADMIN LOGIN MODAL
+══════════════════════════════ */
+#adminScrim{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0);
+  z-index:5000;
+  pointer-events:none;
+  transition:background 0.35s var(--ease);
+}
+#adminScrim.active{
+  background:rgba(8,10,22,0.7);
+  pointer-events:auto;
+  backdrop-filter:blur(8px);
+}
+
+#adminModal{
+  position:fixed;
+  bottom:0;left:50%;
+  transform:translateX(-50%) translateY(110%);
+  width:100%;max-width:430px;
+  background:var(--card);
+  border-radius:28px 28px 0 0;
+  z-index:5001;
+  padding:0 0 max(24px,env(safe-area-inset-bottom)) 0;
+  box-shadow:0 -16px 60px rgba(0,0,0,0.25);
+  transition:transform 0.48s var(--spring);
+  will-change:transform;
+}
+#adminModal.open{
+  transform:translateX(-50%) translateY(0);
+}
+
+.admin-handle{
+  width:36px;height:4px;border-radius:100px;
+  background:var(--border);
+  margin:14px auto 0;
+}
+
+.admin-modal-head{
+  padding:20px 24px 0;
+  display:flex;align-items:center;gap:14px;
+}
+.admin-modal-icon{
+  width:48px;height:48px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+  box-shadow:0 6px 20px rgba(67,97,238,0.35);
+}
+.admin-modal-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);}
+.admin-modal-sub{font-size:0.72rem;color:var(--text2);margin-top:2px;}
+
+.admin-form{padding:22px 24px 0;}
+.admin-input-group{margin-bottom:14px;}
+.admin-input-label{
+  font-size:0.68rem;font-weight:700;color:var(--text2);
+  letter-spacing:0.06em;text-transform:uppercase;
+  margin-bottom:6px;display:block;
+}
+.admin-input{
+  width:100%;padding:12px 16px;
+  background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  font-family:inherit;font-size:0.88rem;color:var(--text);
+  outline:none;
+  transition:border-color 0.25s,box-shadow 0.25s;
+}
+.admin-input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(67,97,238,0.12);
+}
+.admin-error{
+  font-size:0.7rem;color:#ef4444;font-weight:600;
+  margin-top:-8px;margin-bottom:10px;
+  display:none;
+  padding:8px 12px;background:#fee2e2;border-radius:8px;
+}
+.admin-error.show{display:block;}
+
+.admin-login-btn{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:none;border-radius:14px;
+  font-family:inherit;font-size:0.9rem;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 6px 22px rgba(67,97,238,0.4);
+  transition:transform 0.38s var(--spring),box-shadow 0.25s,opacity 0.25s;
+  will-change:transform;
+}
+.admin-login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(67,97,238,0.5);}
+.admin-login-btn:active{transform:scale(0.97);}
+.admin-login-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+.admin-cancel-btn{
+  width:100%;padding:12px;
+  background:transparent;
+  color:var(--text2);border:1.5px solid var(--border);border-radius:14px;
+  font-family:inherit;font-size:0.82rem;font-weight:600;
+  cursor:pointer;margin-top:8px;
+  transition:background 0.22s,border-color 0.22s,transform 0.35s var(--spring);
+}
+.admin-cancel-btn:hover{background:var(--bg);border-color:var(--text3);}
+.admin-cancel-btn:active{transform:scale(0.97);}
+
+/* Admin badge on nav */
+.admin-badge-indicator{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  position:absolute;top:10px;right:16px;
+  box-shadow:0 0 0 2px var(--card);
+  animation:livePulse 2s infinite;
+}
+
+/* Admin indicator in topbar */
+.admin-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  padding:3px 10px;border-radius:100px;
+  font-size:0.6rem;font-weight:700;
+  letter-spacing:0.04em;
+  box-shadow:0 2px 10px rgba(67,97,238,0.3);
+}
+.admin-chip-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#fff;opacity:0.8;
+  animation:livePulse 2s infinite;
+}
 </style>
 </head>
 <body>
@@ -1045,7 +1155,10 @@ body{
         </div>
       </div>
       <div class="topbar-actions">
+        <!-- Admin chip shown when logged in -->
+        <span class="admin-chip" id="adminChip" style="display:none"><span class="admin-chip-dot"></span>ADMIN</span>
         <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+        <button class="icon-btn" id="adminNavBtn" onclick="openAdminModal()" title="Login Admin">🔐</button>
         <button class="icon-btn primary" onclick="gotoPage('gallery')">＋</button>
       </div>
     </div>
@@ -1160,6 +1273,21 @@ body{
       </div>
     </div>
     <div class="settings-section">
+      <div class="settings-label">Admin</div>
+      <div class="settings-group">
+        <div class="settings-item" onclick="openAdminModal()">
+          <div class="si-left">
+            <div class="si-icon si-blue">🔐</div>
+            <div class="si-text">
+              <h4 id="adminStatusTitle">Login Admin</h4>
+              <p id="adminStatusDesc">Akses fitur hapus foto</p>
+            </div>
+          </div>
+          <div class="si-right" id="adminStatusRight" style="color:var(--accent);font-size:0.7rem;font-weight:600">Masuk →</div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-section">
       <div class="settings-label">Tampilan</div>
       <div class="settings-group">
         <div class="settings-item"><div class="si-left"><div class="si-icon si-purple">🌙</div><div class="si-text"><h4>Mode Gelap</h4><p>Aktifkan dark mode</p></div></div><div class="si-right"><div class="toggle-sw" id="darkToggle" onclick="toggleTheme()"></div></div></div>
@@ -1191,7 +1319,7 @@ body{
         <div class="settings-item" onclick="startSlideshow()"><div class="si-left"><div class="si-icon si-blue">▶️</div><div class="si-text"><h4>Putar Slideshow</h4><p>Tampilkan semua foto</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Putar →</div></div>
         <div class="settings-item" onclick="downloadAll()"><div class="si-left"><div class="si-icon si-green">⬇️</div><div class="si-text"><h4>Download Semua</h4><p>Unduh seluruh galeri</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Unduh →</div></div>
         <div class="settings-item" onclick="shareGallery()"><div class="si-left"><div class="si-icon si-pink">🔗</div><div class="si-text"><h4>Bagikan Galeri</h4><p>Salin link halaman ini</p></div></div><div class="si-right" style="color:var(--accent);font-size:0.7rem;font-weight:600">Share →</div></div>
-        <div class="settings-item" onclick="clearAll()"><div class="si-left"><div class="si-icon si-red">🗑️</div><div class="si-text"><h4>Hapus Semua Foto</h4><p>Tidak bisa dikembalikan!</p></div></div><div class="si-right" style="color:#ef4444;font-size:0.7rem;font-weight:700">Hapus</div></div>
+        <div class="settings-item" onclick="adminClearAll()"><div class="si-left"><div class="si-icon si-red">🗑️</div><div class="si-text"><h4>Hapus Semua Foto</h4><p>Khusus admin · Tidak bisa dikembalikan!</p></div></div><div class="si-right" style="color:#ef4444;font-size:0.7rem;font-weight:700">Hapus</div></div>
       </div>
     </div>
     <div style="text-align:center;padding:20px 22px 32px;font-size:0.72rem;color:var(--text3)">
@@ -1224,8 +1352,6 @@ body{
     </div>
     <button class="cp-close" onclick="closeCommentPanel()">✕</button>
   </div>
-
-  <!-- Like + Reactions row -->
   <div class="cp-like-row">
     <button class="cp-like-btn" id="cpLikeBtn" onclick="togglePhotoLike()">
       <span class="cp-heart" id="cpHeart">🤍</span>
@@ -1239,16 +1365,12 @@ body{
       <button class="cp-emoji-btn" onclick="addReaction('🙏')" title="Doa"><span>🙏</span><span class="emoji-count" id="emo-pray" style="display:none"></span></button>
     </div>
   </div>
-
-  <!-- Comments list -->
   <div class="cp-comments-wrap" id="cpCommentsList">
     <div class="cp-empty">
       <span class="cp-empty-icon">💬</span>
       <p>Belum ada komentar. Jadilah yang pertama!</p>
     </div>
   </div>
-
-  <!-- Input row -->
   <div class="cp-input-row">
     <div class="cc-user-av" id="cpUserAv">Y</div>
     <textarea class="cp-textarea" id="cpInput" placeholder="Tulis komentar..." rows="1"
@@ -1266,10 +1388,7 @@ body{
   <div class="gacha-sub" id="gachaSub">Spin untuk menemukan foto spesial</div>
   <div class="gacha-reel-wrap" id="gachaReelWrap">
     <div class="gacha-center-line"></div>
-    <div class="gacha-reel" id="gachaReel">
-      <!-- filled by JS -->
-    </div>
-    <!-- result reveal layer -->
+    <div class="gacha-reel" id="gachaReel"></div>
     <div class="gacha-result" id="gachaResult">
       <img id="gachaResultImg" src="" alt="" class="gacha-result-img">
       <div class="gacha-result-overlay"></div>
@@ -1305,7 +1424,8 @@ body{
     <button class="lb-btn" onclick="lbOpenComments()">💬 Komentar</button>
     <button class="lb-btn" onclick="lbDownload()">⬇ Unduh</button>
     <button class="lb-btn" onclick="lbFavorite()">⭐</button>
-    <button class="lb-btn danger" onclick="lbDelete()">🗑</button>
+    <!-- Delete button: only visible to admin -->
+    <button class="lb-btn danger" id="lbDeleteBtn" onclick="lbDelete()" style="display:none">🗑</button>
   </div>
   <div class="lb-indicator" id="lbIndicator"></div>
 </div>
@@ -1322,6 +1442,45 @@ body{
   </div>
 </div>
 
+<!-- ADMIN SCRIM -->
+<div id="adminScrim" onclick="closeAdminModal()"></div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div id="adminModal">
+  <div class="admin-handle"></div>
+  <div class="admin-modal-head">
+    <div class="admin-modal-icon" id="adminModalIcon">🔐</div>
+    <div>
+      <div class="admin-modal-title" id="adminModalTitle">Login Admin</div>
+      <div class="admin-modal-sub" id="adminModalSub">Masuk untuk mengakses fitur hapus foto</div>
+    </div>
+  </div>
+  <div class="admin-form" id="adminLoginForm">
+    <div class="admin-input-group">
+      <label class="admin-input-label">Username</label>
+      <input type="text" class="admin-input" id="adminUser" placeholder="Masukkan username" autocomplete="username" autocapitalize="none">
+    </div>
+    <div class="admin-input-group">
+      <label class="admin-input-label">Password</label>
+      <input type="password" class="admin-input" id="adminPass" placeholder="Masukkan password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') doAdminLogin()">
+    </div>
+    <div class="admin-error" id="adminError">Username atau password salah!</div>
+    <button class="admin-login-btn" id="adminLoginBtn" onclick="doAdminLogin()">Masuk sebagai Admin</button>
+    <button class="admin-cancel-btn" onclick="closeAdminModal()">Batal</button>
+  </div>
+  <!-- Logged-in state shown inside modal -->
+  <div class="admin-form" id="adminLoggedForm" style="display:none">
+    <div style="text-align:center;padding:16px 0 8px">
+      <div style="font-size:2.5rem;margin-bottom:10px">✅</div>
+      <div style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:4px">Anda masuk sebagai Admin</div>
+      <div style="font-size:0.75rem;color:var(--text2);margin-bottom:20px">Fitur hapus foto sudah aktif</div>
+    </div>
+    <button class="admin-cancel-btn" style="border-color:#ef4444;color:#ef4444" onclick="doAdminLogout()">🚪 Logout Admin</button>
+    <button class="admin-cancel-btn" onclick="closeAdminModal()">Tutup</button>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -1332,11 +1491,16 @@ const BUCKET='images';
 const {createClient}=supabase;
 const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
 
+// ── ADMIN CREDENTIALS (obfuscated) ──
+const _au = atob('ZGhhbjEwODBw');      // dhan1080p
+const _ap = atob('UkFERU44OTAw');      // RADEN8900
+
 // ── STATE ──
 let photos=[], favorites=JSON.parse(localStorage.getItem('favs')||'[]');
 let activeFilterState='all', currentCols=2, lightboxIdx=0;
 let ssIdx=0, ssTimer=null, ssPaused=false;
 let toastTimer=null, currentPage='home';
+let isAdmin = sessionStorage.getItem('adminAuth') === '1';
 
 // ── GREETING ──
 (function(){
@@ -1344,6 +1508,103 @@ let toastTimer=null, currentPage='home';
   document.getElementById('timeGreet').textContent=
     h<11?'Selamat pagi ☀️':h<15?'Selamat siang 🌤️':h<18?'Selamat sore 🌅':'Selamat malam 🌙';
 })();
+
+// ── INIT ADMIN UI ──
+function updateAdminUI(){
+  // Topbar chip
+  document.getElementById('adminChip').style.display = isAdmin ? 'inline-flex' : 'none';
+  // Admin btn icon
+  document.getElementById('adminNavBtn').textContent = isAdmin ? '🔓' : '🔐';
+  // Settings page
+  document.getElementById('adminStatusTitle').textContent = isAdmin ? 'Admin Aktif' : 'Login Admin';
+  document.getElementById('adminStatusDesc').textContent = isAdmin ? 'Klik untuk logout' : 'Akses fitur hapus foto';
+  document.getElementById('adminStatusRight').textContent = isAdmin ? 'Logout →' : 'Masuk →';
+  document.getElementById('adminStatusRight').style.color = isAdmin ? '#ef4444' : 'var(--accent)';
+  // Lightbox delete btn
+  document.getElementById('lbDeleteBtn').style.display = isAdmin ? 'flex' : 'none';
+  // Re-render gallery to show/hide delete buttons
+  renderGallery();
+}
+
+// ── ADMIN MODAL ──
+function openAdminModal(){
+  const scrim = document.getElementById('adminScrim');
+  const modal = document.getElementById('adminModal');
+  const loginForm = document.getElementById('adminLoginForm');
+  const loggedForm = document.getElementById('adminLoggedForm');
+
+  // Reset
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminError').classList.remove('show');
+
+  if(isAdmin){
+    loginForm.style.display = 'none';
+    loggedForm.style.display = 'block';
+    document.getElementById('adminModalTitle').textContent = 'Admin Panel';
+    document.getElementById('adminModalSub').textContent = 'Anda sudah masuk sebagai admin';
+    document.getElementById('adminModalIcon').textContent = '🔓';
+  } else {
+    loginForm.style.display = 'block';
+    loggedForm.style.display = 'none';
+    document.getElementById('adminModalTitle').textContent = 'Login Admin';
+    document.getElementById('adminModalSub').textContent = 'Masuk untuk mengakses fitur hapus foto';
+    document.getElementById('adminModalIcon').textContent = '🔐';
+  }
+
+  scrim.classList.add('active');
+  modal.classList.add('open');
+  if(!isAdmin) setTimeout(()=> document.getElementById('adminUser').focus(), 350);
+}
+
+function closeAdminModal(){
+  document.getElementById('adminScrim').classList.remove('active');
+  document.getElementById('adminModal').classList.remove('open');
+}
+
+function doAdminLogin(){
+  const user = document.getElementById('adminUser').value.trim();
+  const pass = document.getElementById('adminPass').value;
+  const btn = document.getElementById('adminLoginBtn');
+  const errEl = document.getElementById('adminError');
+
+  // Shake animation feedback
+  btn.disabled = true;
+  errEl.classList.remove('show');
+
+  setTimeout(()=>{
+    if(user === _au && pass === _ap){
+      isAdmin = true;
+      sessionStorage.setItem('adminAuth','1');
+      closeAdminModal();
+      toast('🔓 Login admin berhasil!','ok');
+      updateAdminUI();
+    } else {
+      errEl.classList.add('show');
+      document.getElementById('adminPass').value = '';
+      // Shake the modal
+      const modal = document.getElementById('adminModal');
+      modal.style.animation = 'none';
+      modal.style.transform = 'translateX(-50%) translateY(0)';
+      let s = 0;
+      const shake = setInterval(()=>{
+        s++;
+        modal.style.transform = `translateX(calc(-50% + ${s%2===0?'6px':'-6px'})) translateY(0)`;
+        if(s>=6){clearInterval(shake);modal.style.transform='translateX(-50%) translateY(0)';}
+      },60);
+      document.getElementById('adminUser').focus();
+    }
+    btn.disabled = false;
+  }, 400);
+}
+
+function doAdminLogout(){
+  isAdmin = false;
+  sessionStorage.removeItem('adminAuth');
+  closeAdminModal();
+  toast('👋 Logout admin berhasil');
+  updateAdminUI();
+}
 
 // ── TOPBAR SCROLL EFFECT ──
 document.querySelectorAll('.page').forEach(pg=>{
@@ -1369,13 +1630,11 @@ function gotoPage(name){
   const next=document.getElementById('page-'+name);
   if(!next) return;
 
-  // exit current
   prev.style.transition='opacity 0.28s cubic-bezier(0.4,0,1,1),transform 0.28s cubic-bezier(0.4,0,1,1)';
   prev.style.opacity='0';
   prev.style.transform='translateY(-10px) scale(0.98)';
   prev.style.pointerEvents='none';
 
-  // prepare next (off-screen below)
   next.style.transition='none';
   next.style.opacity='0';
   next.style.transform='translateY(20px)';
@@ -1387,7 +1646,6 @@ function gotoPage(name){
     prev.style.transition='';
     prev.style.opacity=''; prev.style.transform='';
 
-    // animate next in
     next.style.transition='opacity 0.38s cubic-bezier(0,0,0.2,1),transform 0.38s cubic-bezier(0,0,0.2,1)';
     next.style.opacity='1';
     next.style.transform='translateY(0)';
@@ -1479,7 +1737,7 @@ function renderGallery(){
           <button class="photo-act-btn" onclick="quickLike('${p.name}',this,event);event.stopPropagation()">${liked?'❤️':'🤍'}</button>
           <button class="photo-act-btn" onclick="openCommentPanel('${p.name}');event.stopPropagation()">💬</button>
           <button class="photo-act-btn" onclick="toggleFav('${p.name}');event.stopPropagation()">${favorites.includes(p.name)?'⭐':'☆'}</button>
-          <button class="photo-act-btn del" onclick="deletePhoto('${p.name}');event.stopPropagation()">🗑</button>
+          ${isAdmin ? `<button class="photo-act-btn del" onclick="deletePhoto('${p.name}');event.stopPropagation()">🗑</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -1554,8 +1812,9 @@ async function handleFiles(files){
   await loadPhotos();
 }
 
-// ── DELETE ──
+// ── DELETE (Admin only) ──
 async function deletePhoto(name){
+  if(!isAdmin){ toast('🔐 Hanya admin yang bisa menghapus foto','err'); return; }
   if(!confirm('Hapus foto ini?')) return;
   const{error}=await sb.storage.from(BUCKET).remove([name]);
   if(error){toast('Gagal hapus foto','err');return;}
@@ -1563,11 +1822,16 @@ async function deletePhoto(name){
   toast('Foto dihapus','ok'); await loadPhotos(); closeLightbox();
 }
 async function clearAll(){
+  if(!isAdmin){ toast('🔐 Hanya admin yang bisa menghapus foto','err'); return; }
   if(!confirm('Hapus SEMUA foto? Tidak bisa dikembalikan!')) return;
   if(!confirm('Yakin? '+photos.length+' foto akan dihapus!')) return;
   const{error}=await sb.storage.from(BUCKET).remove(photos.map(p=>p.name));
   if(error){toast('Gagal hapus semua','err');return;}
   favorites=[];localStorage.setItem('favs','[]'); await loadPhotos(); toast('Semua foto dihapus','ok');
+}
+function adminClearAll(){
+  if(!isAdmin){ toast('🔐 Login admin terlebih dahulu','err'); openAdminModal(); return; }
+  clearAll();
 }
 
 // ── FAV ──
@@ -1609,7 +1873,8 @@ function lbRender(anim=true){
   document.getElementById('lbCounter').textContent=`${lightboxIdx+1}/${photos.length}`;
   const max=Math.min(photos.length,15);
   document.getElementById('lbIndicator').innerHTML=Array.from({length:max},(_,i)=>`<div class="lb-dot${i===(lightboxIdx%max)?' active':''}" onclick="openLightbox(${i})"></div>`).join('');
-  // update like state
+  // Show delete btn only for admin
+  document.getElementById('lbDeleteBtn').style.display = isAdmin ? 'flex' : 'none';
   lbUpdateLike();
 }
 function lbNav(dir){lightboxIdx=(lightboxIdx+dir+photos.length)%photos.length;lbRender(true);}
@@ -1659,13 +1924,8 @@ function stopSlideshow(){clearTimeout(ssTimer);document.getElementById('slidesho
 function fmtDate(d){if(!d)return'';try{return new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});}catch{return'';}}
 
 // ── LIKE & COMMENT SYSTEM ──
-// Storage keys: 'likes_{photoName}' = count, 'liked_{photoName}' = bool
-//               'comments_{photoName}' = JSON array
-//               'reactions_{photoName}' = {emoji: count}
-
 let currentCommentPhoto = null;
 
-// ── LIKE HELPERS ──
 function getLikeCount(name){ return parseInt(localStorage.getItem('likes_'+name)||'0'); }
 function isLiked(name){ return localStorage.getItem('liked_'+name)==='1'; }
 function getCommentCount(name){ return (JSON.parse(localStorage.getItem('comments_'+name)||'[]')).length; }
@@ -1679,12 +1939,10 @@ function setLike(name, liked){
   return count;
 }
 
-// Quick like from gallery card (with heart float animation)
 function quickLike(name, btn, e){
   e.stopPropagation();
   const liked = !isLiked(name);
   const count = setLike(name, liked);
-  // float heart
   if(liked) spawnFloatingHeart(e.clientX, e.clientY);
   toast(liked ? '❤️ Disukai!' : 'Batal suka');
   renderGallery();
@@ -1706,34 +1964,26 @@ function openCommentPanel(photoName){
   const photo = photos.find(p=>p.name===photoName);
   if(!photo) return;
 
-  // set thumbnail & info
   document.getElementById('cpThumb').src = photo.url;
   document.getElementById('cpTitle').textContent = fmtDate(photo.created) || photo.name;
   updateCpSubtitle();
 
-  // set user avatar from saved avatar
   const av = localStorage.getItem('avatar');
   const avEl = document.getElementById('cpUserAv');
   avEl.innerHTML = av ? `<img src="${av}" alt="">` : 'K';
 
-  // render like state
   renderCpLike();
-  // render reactions
   renderCpReactions();
-  // render comments
   renderComments();
-  // reset input
   document.getElementById('cpInput').value = '';
   document.getElementById('cpInput').style.height = 'auto';
   cpUpdateSendBtn();
 
-  // open panel
   const scrim = document.getElementById('commentScrim');
   const panel = document.getElementById('commentPanel');
   scrim.classList.add('active');
   panel.classList.add('open');
 
-  // focus input after animation
   setTimeout(()=> document.getElementById('cpInput').focus(), 400);
 }
 
@@ -1741,7 +1991,6 @@ function closeCommentPanel(){
   document.getElementById('commentScrim').classList.remove('active');
   document.getElementById('commentPanel').classList.remove('open');
   currentCommentPhoto = null;
-  // refresh gallery to update badges
   renderGallery();
 }
 
@@ -1768,7 +2017,6 @@ function togglePhotoLike(){
   const liked = !isLiked(currentCommentPhoto);
   setLike(currentCommentPhoto, liked);
   if(liked){
-    // animate heart burst from button
     const btn = document.getElementById('cpLikeBtn');
     const r = btn.getBoundingClientRect();
     spawnFloatingHeart(r.left + r.width/2, r.top);
@@ -1777,7 +2025,6 @@ function togglePhotoLike(){
   toast(liked ? '❤️ Disukai!' : 'Batal suka');
 }
 
-// ── LIGHTBOX LIKE ──
 function lbUpdateLike(){
   const p = photos[lightboxIdx]; if(!p) return;
   const liked = isLiked(p.name);
@@ -1816,7 +2063,6 @@ function addReaction(emoji){
   reactions[emoji] = (reactions[emoji]||0) + 1;
   localStorage.setItem(key, JSON.stringify(reactions));
   renderCpReactions();
-  // float emoji
   const id = EMOJI_IDS[emoji];
   const btn = document.getElementById('emo-'+id)?.parentElement;
   if(btn){
@@ -1868,7 +2114,6 @@ function renderComments(){
         </div>
       </div>
     </div>`).join('');
-  // scroll to bottom
   setTimeout(()=>{ wrap.scrollTop = wrap.scrollHeight; }, 50);
 }
 
@@ -1943,7 +2188,6 @@ function openGacha() {
   ov.classList.add('active');
   document.getElementById('gachaCounter').textContent = photos.length + ' foto';
   document.getElementById('gachaSub').textContent = 'Spin untuk menemukan foto spesial';
-  // reset state
   document.getElementById('gachaResult').classList.remove('show');
   document.getElementById('gachaActions').classList.remove('show');
   document.getElementById('gachaReelWrap').classList.remove('landed', 'spinning');
@@ -1960,7 +2204,6 @@ function closeGacha() {
 
 function gachaBuildReel() {
   const reel = document.getElementById('gachaReel');
-  // Build a long shuffled list for the scroll animation (30 items)
   const pool = [];
   while (pool.length < 30) {
     const shuffled = [...photos].sort(() => Math.random() - 0.5);
@@ -1970,7 +2213,6 @@ function gachaBuildReel() {
   reel.innerHTML = items.map(p =>
     `<div class="gacha-reel-item"><img src="${p.url}" loading="lazy" alt=""></div>`
   ).join('');
-  // Reset position to top
   reel.style.transition = 'none';
   reel.style.transform = 'translateY(0px)';
   reel._items = items;
@@ -1987,7 +2229,6 @@ function spinGacha() {
   const result = document.getElementById('gachaResult');
   const actions = document.getElementById('gachaActions');
 
-  // Reset result
   result.classList.remove('show');
   actions.classList.remove('show');
   wrap.classList.remove('landed');
@@ -1996,7 +2237,6 @@ function spinGacha() {
   btn.disabled = true;
   btn.innerHTML = '<span class="gacha-spin-icon" style="animation:spin 0.4s linear infinite">⏳</span> Spinning...';
 
-  // Add spin keyframe dynamically
   if (!document.getElementById('spinStyle')) {
     const s = document.createElement('style');
     s.id = 'spinStyle';
@@ -2004,40 +2244,29 @@ function spinGacha() {
     document.head.appendChild(s);
   }
 
-  // Rebuild reel fresh each spin
   gachaBuildReel();
 
-  // Pick random winner
   const winnerIdx = Math.floor(Math.random() * photos.length);
   gachaResultIdx = winnerIdx;
   const winner = photos[winnerIdx];
 
-  // Item height = 244px + 8px gap = 252px
   const ITEM_H = 252;
-  const totalItems = reel._items.length;
-  // We want to land on item index 14 (middle-ish) which we'll set to winner
   const landIndex = 14;
   reel._items[landIndex] = winner;
-  // Update that specific DOM item
   const domItems = reel.querySelectorAll('.gacha-reel-item img');
   if (domItems[landIndex]) domItems[landIndex].src = winner.url;
 
-  // Calculate final translateY so landIndex item is centered in the 260px window
-  // Center of window = 130px, item center = landIndex * ITEM_H + 244/2 = landIndex*252+122
   const finalY = -(landIndex * ITEM_H + 122 - 130);
 
-  // Multi-phase spin: fast acceleration → decelerate → land
   const phases = [
-    { y: -(3 * ITEM_H), dur: 400, ease: 'cubic-bezier(0.4,0,1,1)' },       // fast start
-    { y: -(8 * ITEM_H), dur: 500, ease: 'linear' },                          // mid speed
-    { y: -(12 * ITEM_H), dur: 400, ease: 'linear' },                         // peak
-    { y: finalY,         dur: 900, ease: 'cubic-bezier(0,0,0.2,1)' },        // slow to stop
+    { y: -(3 * ITEM_H), dur: 400, ease: 'cubic-bezier(0.4,0,1,1)' },
+    { y: -(8 * ITEM_H), dur: 500, ease: 'linear' },
+    { y: -(12 * ITEM_H), dur: 400, ease: 'linear' },
+    { y: finalY,         dur: 900, ease: 'cubic-bezier(0,0,0.2,1)' },
   ];
 
-  let elapsed = 0;
   function runPhase(i) {
     if (i >= phases.length) {
-      // Landed!
       wrap.classList.remove('spinning');
       wrap.classList.add('landed');
       gachaShowResult(winner);
@@ -2047,7 +2276,6 @@ function spinGacha() {
     const p = phases[i];
     reel.style.transition = `transform ${p.dur}ms ${p.ease}`;
     reel.style.transform = `translateY(${p.y}px)`;
-    elapsed += p.dur;
     setTimeout(() => runPhase(i + 1), p.dur);
   }
   runPhase(0);
@@ -2065,7 +2293,6 @@ function gachaShowResult(photo) {
   label.textContent = fmtDate(photo.created);
   sub.textContent = '✨ Kenangan ditemukan!';
 
-  // Slight delay then show result overlay
   setTimeout(() => {
     result.classList.add('show');
     gachaFireParticles();
@@ -2081,7 +2308,7 @@ function gachaFireParticles() {
   const container = document.getElementById('gachaParticles');
   container.innerHTML = '';
   const colors = ['#4361ee','#ec4899','#22c55e','#f97316','#eab308','#14b8a6','#7c3aed','#ef4444'];
-  const cx = 130, cy = 130; // center of 260px box
+  const cx = 130, cy = 130;
   for (let i = 0; i < 28; i++) {
     const el = document.createElement('div');
     el.className = 'particle';
@@ -2103,7 +2330,6 @@ function gachaFireParticles() {
     `;
     container.appendChild(el);
   }
-  // Clear after animation
   setTimeout(() => { container.innerHTML = ''; }, 1500);
 }
 
@@ -2127,6 +2353,7 @@ function gachaDl() {
 
 // ── INIT ──
 loadPhotos();
+updateAdminUI();
 </script>
 </body>
 </html>
